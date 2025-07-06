@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Play, Award, Clock, Users } from 'lucide-react';
+import { BookOpen, Play, Award, Clock, Users, Home } from 'lucide-react';
 import { getAllCourses } from '../api/api';
 import type { Course } from '../api/api';
 import Layout from './Layout';
+import IntroHeader from './IntroHeader';
 
 const UserHome: React.FC = () => {
   const { user } = useAuth();
@@ -45,81 +46,100 @@ const UserHome: React.FC = () => {
   };
 
   const stats = [
-    { icon: BookOpen, label: 'Enrolled Courses', value: '3' },
-    { icon: Award, label: 'Certificates', value: '1' },
-    { icon: Clock, label: 'Hours Learned', value: '24' },
-    { icon: Users, label: 'Study Groups', value: '2' }
+    { icon: BookOpen, label: 'Enrolled Courses', value: '3', color: 'blue' },
+    { icon: Award, label: 'Certificates', value: '1', color: 'green' },
+    { icon: Clock, label: 'Hours Learned', value: '24', color: 'purple' },
+    { icon: Users, label: 'Study Groups', value: '2', color: 'pink' }
   ];
 
   return (
     <Layout>
+      <div className="page-hero-container">
+        <IntroHeader 
+          title={`Welcome back, ${user?.username}!`}
+          tagline="Continue your learning journey and explore new courses."
+          icon={<Home />}
+        />
+      </div>
       <div className={`content-wrapper ${darkMode ? 'dark' : 'light'}`}>
-        <motion.div className="page-header" {...getAnimationProps()}>
-          <h1 className="page-title">Welcome back, {user?.username}!</h1>
-          <p className="page-subtitle">
-            Continue your learning journey and explore new courses.
-          </p>
-        </motion.div>
-
         {/* Stats Grid */}
         <motion.div className="user-stats-grid" {...getAnimationProps(0.1)}>
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className={`stat-card ${!darkMode ? 'stat-orange-card' : ''}`}
-              style={
-                darkMode
-                  ? {
-                      background: 'linear-gradient(135deg, #23263a 0%, #181A20 100%)',
-                      border: '2px solid #2d3148',
-                      color: '#fff',
-                      boxShadow: '0 4px 24px 0 rgba(0,0,0,0.18)',
-                      borderRadius: 18,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minHeight: 120,
-                      padding: '32px 24px',
-                    }
-                  : undefined
-              }
-            >
-              <stat.icon
-                size={32}
-                className="stat-icon"
+          {stats.map((stat, index) => {
+            // Define dark gradients and borders for each stat card
+            let darkGradient = '';
+            let darkBorder = '';
+            if (stat.label === 'Enrolled Courses') {
+              darkGradient = 'linear-gradient(135deg, #3b0764 0%, #a21caf 100%)';
+              darkBorder = '2px solid #a21caf';
+            } else if (stat.label === 'Certificates') {
+              darkGradient = 'linear-gradient(135deg, #134e4a 0%, #0f766e 100%)';
+              darkBorder = '2px solid #0f766e';
+            } else if (stat.label === 'Hours Learned') {
+              darkGradient = 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)';
+              darkBorder = '2px solid #2563eb';
+            } else if (stat.label === 'Study Groups') {
+              darkGradient = 'linear-gradient(135deg, #a16207 0%, #fde68a 100%)';
+              darkBorder = '2px solid #a16207';
+            }
+            return (
+              <div
+                key={index}
+                className={`stat-card flex flex-col items-center justify-center transition-colors duration-300 animate-fade-in ${!darkMode ? `soft-${stat.color}-card` : ''}`}
                 style={
                   darkMode
                     ? {
-                        color:
-                          stat.label === 'Enrolled Courses'
-                            ? '#7dd3fc' // pastel blue
-                            : stat.label === 'Certificates'
-                            ? '#6ee7b7' // pastel teal
-                            : stat.label === 'Hours Learned'
-                            ? '#c4b5fd' // pastel purple
-                            : stat.label === 'Study Groups'
-                            ? '#fde68a' // pastel yellow
-                            : '#fff',
-                        marginBottom: 16,
+                        background: darkGradient,
+                        border: darkBorder,
+                        color: '#fff',
+                        boxShadow: '0 4px 24px 0 rgba(0,0,0,0.18)',
+                        borderRadius: 18,
+                        minHeight: 120,
+                        padding: '32px 24px',
                       }
-                    : undefined
+                    : {
+                        minHeight: 120,
+                        padding: '32px 24px',
+                        borderRadius: 18,
+                      }
                 }
-              />
-              <div className="stat-content" style={{ alignItems: 'center', textAlign: 'center' }}>
-                <div
-                  className="stat-label"
-                  style={darkMode ? { color: '#d1d5db', fontWeight: 500, fontSize: 16 } : undefined}
-                >
-                  {stat.label}
-                </div>
-                <div
-                  className="stat-value"
-                  style={darkMode ? { color: '#fff', fontWeight: 700, fontSize: 28 } : undefined}
-                >
-                  {stat.value}
+              >
+                <stat.icon
+                  size={32}
+                  className="stat-icon mb-4"
+                  style={
+                    darkMode
+                      ? {
+                          color:
+                            stat.label === 'Enrolled Courses'
+                              ? '#7dd3fc'
+                              : stat.label === 'Certificates'
+                              ? '#6ee7b7'
+                              : stat.label === 'Hours Learned'
+                              ? '#c4b5fd'
+                              : stat.label === 'Study Groups'
+                              ? '#fde68a'
+                              : '#fff',
+                        }
+                      : undefined
+                  }
+                />
+                <div className="stat-content flex flex-col items-center text-center">
+                  <div
+                    className="stat-label"
+                    style={darkMode ? { color: '#d1d5db', fontWeight: 500, fontSize: 16 } : undefined}
+                  >
+                    {stat.label}
+                  </div>
+                  <div
+                    className="stat-value"
+                    style={darkMode ? { color: '#fff', fontWeight: 700, fontSize: 28 } : undefined}
+                  >
+                    {stat.value}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </motion.div>
 
         {/* Available Courses */}
@@ -146,7 +166,7 @@ const UserHome: React.FC = () => {
               {courses.map((course, index) => (
                 <motion.div
                   key={course._id}
-                  className="course-card"
+                  className={`course-card ${!darkMode ? 'soft-course-card' : ''}`}
                   onClick={() => handleCourseClick(course)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -160,7 +180,7 @@ const UserHome: React.FC = () => {
                   <div className="course-content">
                     <h3 className="course-title">{course.courseName}</h3>
                     <div className="course-actions">
-                      <button className="course-btn primary">
+                      <button className={`course-btn primary ${!darkMode ? 'soft-primary-btn' : ''}`}>
                         <Play size={16} />
                         Start Learning
                       </button>

@@ -6,11 +6,12 @@ body {
 }
 
 .achievement-page {
-  padding: 24px;
   min-height: 100vh;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  padding: 0;
+  margin: 0;
 }
 
 /* Top section grid */
@@ -23,36 +24,69 @@ body {
 
 /* Stat card styling */
 .stat-card {
-  padding: 16px 12px;
-  border-radius: 12px;
-  text-align: center;
-  color: #fff;
-  min-height: 90px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  padding: 10px 8px;
+  border-radius: 8px;
+  text-align: center;
+  color: #fff;
+  min-height: 60px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border: 2px solid #e0e7ef;
+  transition: box-shadow 0.2s;
+}
+
+.stat-icon {
+  display: block;
+  margin: 0 auto 10px auto;
+  color: inherit;
 }
 
 /* Stat card gradients */
-.streak {
-  background: linear-gradient(135deg, #ff6b6b, #ffa07a);
+.streak, .higheststreak, .active-days, .points, .level,
+.soft-blue-card, .soft-green-card, .soft-purple-card, .soft-pink-card {
+  /* width, max-width, and box-sizing removed to restore original sizing */
 }
 
-.higheststreak {
-  background: linear-gradient(135deg, #006400, #32cd32);
+body.dark-theme .streak {
+  background: linear-gradient(135deg, #ff6b6b, #ffa07a) !important;
+  border: 2px solid #e25858;
+}
+body.dark-theme .higheststreak {
+  background: linear-gradient(135deg, #006400, #32cd32) !important;
+  border: 2px solid #005a00;
+}
+body.dark-theme .active-days {
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa) !important;
+  border: 2px solid #7c3aed;
+}
+body.dark-theme .points {
+  background: linear-gradient(135deg, #f7971e, #ffd200) !important;
+  border: 2px solid #eab308;
+}
+body.dark-theme .level {
+  background: linear-gradient(135deg, #7b4397, #dc2430) !important;
+  border: 2px solid #a21caf;
 }
 
-.active-days {
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+/* More vibrant pastel gradients and border for stat cards */
+.soft-blue-card {
+  background: linear-gradient(135deg, #bae6fd 0%, #60a5fa 100%);
+  border: 2px solid #60a5fa;
 }
-
-.points {
-  background: linear-gradient(135deg, #f7971e, #ffd200);
+.soft-green-card {
+  background: linear-gradient(135deg, #bbf7d0 0%, #22d3ee 100%);
+  border: 2px solid #22d3ee;
 }
-
-.level {
-  background: linear-gradient(135deg, #7b4397, #dc2430);
+.soft-purple-card {
+  background: linear-gradient(135deg, #ddd6fe 0%, #a78bfa 100%);
+  border: 2px solid #a78bfa;
+}
+.soft-pink-card {
+  background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 100%);
+  border: 2px solid #f472b6;
 }
 
 /* Stat card text */
@@ -83,80 +117,195 @@ body {
   border: 2px solid #6b7280;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(254, 215, 170, 0.3);
+  box-shadow: 0 0 24px 4px rgba(0,0,0,0.13);
   color: #fff;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.calendar-section h2, .badge-section h2 {
-  margin-bottom: 20px;
-  font-size: 18px;
-  color: #e2e8f0;
-  font-weight: 600;
+body.dark-theme .calendar-section, body.dark-theme .badge-section {
+  box-shadow: 0 0 24px 4px rgba(255,193,7,0.25);
 }
 
-.badge-section {
-  overflow-y: auto;
-}
-
-/* Badge overlay popup */
-.badge-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.65);
-  padding: 30px 40px;
-  border-radius: 20px;
-  z-index: 999;
+.calendar-section {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 20px;
+  border: 2px solid #6b7280;
+  border-radius: 12px;
+  box-shadow: 0 0 24px 4px rgba(0,0,0,0.13);
+  background: transparent;
+  color: #fff;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.calendar-wrapper {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: block;
+}
+
+.calendar-grid {
+  width: 100%;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+
+.weekday {
+  font-weight: 600;
+  color: #6b7280;
+  text-align: center;
+  font-size: 1rem;
+  padding-bottom: 2px;
+}
+
+body.dark-theme .weekday {
+  color: #cbd5e1;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  width: 100%;
+}
+
+.calendar-day {
+  background: #fff;
+  border-radius: 6px;
+  min-height: 28px;
+  padding: 2px 0;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 280px;
-  max-width: 320px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  color: #22223b;
+  font-weight: 500;
+  position: relative;
+  border: 1px solid #e5e7eb;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, border 0.2s;
 }
 
-.badge-popup {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  color: black;
-  z-index: 1000;
+body.dark-theme .calendar-day {
+  background: #23263a;
+  color: #f1f5f9;
+  border: 1px solid #23263a;
 }
 
-.badge-popup img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 12px;
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Streak day: subtle gold border */
+.calendar-day.streak-day {
+  border: 2px solid #fbbf24;
+  background: #fffbe6;
+  color: #a16207;
+  font-weight: bold;
+  z-index: 1;
+}
+
+body.dark-theme .calendar-day.streak-day {
+  border: 2px solid #fbbf24;
+  background: #23263a;
+  color: #fbbf24;
+}
+
+/* Today highlight */
+.calendar-day.today {
+  border: 2px solid #818cf8;
+  background: #f3f4f6;
+  color: #22223b;
+}
+
+body.dark-theme .calendar-day.today {
+  border: 2px solid #818cf8;
+  background: #23263a;
+  color: #818cf8;
+}
+
+/* Login indicator (dot) */
+.login-indicator {
+  width: 6px;
+  height: 6px;
+  background: #fbbf24;
   border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: none;
 }
 
-/* Confetti animation container */
-.confetti-container {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: none;
-  z-index: 998;
+/* Remove or comment out .achievements-hero-container so it inherits .page-hero-container styles */
+/* .achievements-hero-container {
+  ...
+}
+body.dark-theme .achievements-hero-container {
+  ...
+}
+*/
+
+.achievements-hero-container {
+  composes: page-hero-container;
 }
 
-/* Points earned animation */
-.points-earned {
-  margin-top: 15px;
-  font-weight: 700;
-  font-size: 18px;
-  color: #22c55e;
-  text-shadow: 0 0 5px #22c55e99;
-  user-select: none;
-  z-index: 1001;
-  pointer-events: none;
+.stat-card:hover,
+.soft-blue-card:hover,
+.soft-green-card:hover,
+.soft-purple-card:hover,
+.soft-pink-card:hover,
+.streak:hover,
+.higheststreak:hover,
+.active-days:hover,
+.points:hover,
+.level:hover {
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.28) !important;
+  z-index: 2;
+}
+
+body.dark-theme .stat-card:hover,
+body.dark-theme .soft-blue-card:hover,
+body.dark-theme .soft-green-card:hover,
+body.dark-theme .soft-purple-card:hover,
+body.dark-theme .soft-pink-card:hover,
+body.dark-theme .streak:hover,
+body.dark-theme .higheststreak:hover,
+body.dark-theme .active-days:hover,
+body.dark-theme .points:hover,
+body.dark-theme .level:hover {
+  box-shadow: 0 8px 32px 0 rgba(255,255,255,0.38) !important;
+  transform: scale(1.045);
+  z-index: 2;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.stat-card,
+.soft-blue-card,
+.soft-green-card,
+.soft-purple-card,
+.soft-pink-card,
+.streak,
+.higheststreak,
+.active-days,
+.points,
+.level {
+  border-radius: 0;
 }

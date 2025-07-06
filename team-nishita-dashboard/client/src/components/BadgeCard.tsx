@@ -86,8 +86,8 @@ const BadgeCard: React.FC<BadgeCardProps> = ({ badge, isNew = false }) => {
             align="center"
             className={`z-40 max-w-xs p-4 rounded-xl shadow-lg border text-sm animate-fade-in transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
           >
-            <div className="font-semibold text-blue-600 mb-1">{badge.name}</div>
-            
+            <div className="font-bold text-lg mb-1 text-blue-700 dark:text-blue-300">{badge.name}</div>
+            <div className="mb-2 text-base text-gray-600 dark:text-gray-300">{badge.description}</div>
             <div className={`mt-1 text-xs italic transition-all duration-300 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>How to Earn: {getConditionText()}</div>
             <Tooltip.Arrow className={`${darkMode ? 'fill-gray-800' : 'fill-white'}`} />
           </Tooltip.Content>
