@@ -3,6 +3,8 @@ import YouTube from "react-youtube";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCourseBySlug } from "../api/api";
 import type { Course as Course } from '../api/api'
+import { Play } from 'lucide-react';
+import IntroHeader from './IntroHeader';
 
 const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API || "YOUTUBE_API_KEY";
 
@@ -42,10 +44,19 @@ const CoursePlaylistPage: React.FC = () => {
   if (!course) return <div>Loading playlist...</div>;
 
   return (
-    <div style={{ display: "flex", height: "100vh", background: "#232b36" }}>
-      {/* Sidebar */}
-      <div style={{ width: 320, overflowY: "auto", background: "#20232a", color: "#fff", padding: 16 }}>
-        <h3 style={{ margin: "0 0 1rem 0" }}>{course.courseName} Playlist</h3>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "#232b36" }}>
+      <div className="page-hero-container">
+        <IntroHeader 
+          title={`${course.courseName} Playlist`}
+          tagline="Watch comprehensive video lectures and master the concepts"
+          icon={<Play />}
+        />
+      </div>
+      
+      <div style={{ display: "flex", flex: 1 }}>
+        {/* Sidebar */}
+        <div style={{ width: 320, overflowY: "auto", background: "#20232a", color: "#fff", padding: 16 }}>
+          <h3 style={{ margin: "0 0 1rem 0" }}>Video Lessons</h3>
         {playlistItems.map(item => (
           <div
             key={item.id}
@@ -68,35 +79,36 @@ const CoursePlaylistPage: React.FC = () => {
             <div style={{ fontSize: 14, fontWeight: 500 }}>{item.snippet.title}</div>
           </div>
         ))}
-      </div>
-      {/* Main Video Area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        <button
-          onClick={() => navigate(-1)}
-          style={{
-            alignSelf: "flex-start",
-            margin: "2rem 0 1rem 2rem",
-            background: "none",
-            color: "#fff",
-            border: "none",
-            fontSize: 16,
-            cursor: "pointer"
-          }}
-        >
-          ← Back to Course
-        </button>
-        {currentVideoId ? (
-          <YouTube
-            videoId={currentVideoId}
-            opts={{
-              width: "900",
-              height: "500",
-              playerVars: { autoplay: 1 }
+        </div>
+        {/* Main Video Area */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+          <button
+            onClick={() => navigate(-1)}
+            style={{
+              alignSelf: "flex-start",
+              margin: "2rem 0 1rem 2rem",
+              background: "none",
+              color: "#fff",
+              border: "none",
+              fontSize: 16,
+              cursor: "pointer"
             }}
-          />
-        ) : (
-          <div style={{ color: "#fff" }}>No video selected.</div>
-        )}
+          >
+            ← Back to Course
+          </button>
+          {currentVideoId ? (
+            <YouTube
+              videoId={currentVideoId}
+              opts={{
+                width: "900",
+                height: "500",
+                playerVars: { autoplay: 1 }
+              }}
+            />
+          ) : (
+            <div style={{ color: "#fff" }}>No video selected.</div>
+          )}
+        </div>
       </div>
     </div>
   );

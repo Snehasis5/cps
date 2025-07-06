@@ -18,6 +18,8 @@ import dagre from "dagre";
 import "reactflow/dist/style.css";
 import Layout from "./Layout";
 import { useTheme } from '../contexts/ThemeContext';
+import { Network } from 'lucide-react';
+import IntroHeader from './IntroHeader';
 
 type ModuleNode = {
   id: string;
@@ -207,17 +209,15 @@ const KnowledgeGraphPage: React.FC = () => {
   
   return (
     <Layout>
+      <div className="page-hero-container">
+        <IntroHeader 
+          title="Knowledge Prerequisite Graph"
+          tagline="Visualize how different modules build upon each other. Click on any module to highlight its learning chain."
+          icon={<Network />}
+        />
+      </div>
       <div className={`min-h-screen px-4 py-6 sm:px-6 lg:px-8 transition-all duration-300 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto">
-          <header className="mb-6">
-            <h1 className={`text-3xl font-bold transition-all duration-300 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Knowledge Prerequisite Graph
-            </h1>
-            <p className={`mt-2 text-sm max-w-2xl transition-all duration-300 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Visualize how different modules build upon each other. Click on any module to highlight its learning chain.
-            </p>
-          </header>
-
           <div className={`w-full h-[75vh] rounded-lg overflow-hidden border shadow transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
             <ReactFlowProvider>
               <GraphInner />

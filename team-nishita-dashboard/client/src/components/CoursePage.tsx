@@ -4,9 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import Navbar from './Navbar';
-import { ArrowLeft, Play, Award, Download, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Play, Award, Download, ExternalLink, BookOpen } from 'lucide-react';
 import { getCourseBySlug } from '../api/api';
 import type { Course as Course } from '../api/api'
+import IntroHeader from './IntroHeader';
 
 const CoursePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -102,8 +103,15 @@ const CoursePage: React.FC = () => {
     <div className={`page-container ${darkMode ? 'dark' : 'light'}`}>
       <Navbar />
       <div className="main-content">
+        <div className="page-hero-container">
+          <IntroHeader 
+            title={course.courseName}
+            tagline="Master the fundamentals and advanced concepts in this comprehensive course."
+            icon={<BookOpen />}
+          />
+        </div>
         <div className="content-wrapper">
-          {/* Header */}
+          {/* Back Button */}
           <motion.div className="course-header" {...getAnimationProps()}>
             <button
               className="back-btn"
@@ -112,13 +120,6 @@ const CoursePage: React.FC = () => {
               <ArrowLeft size={20} />
               Back to Dashboard
             </button>
-            <div className="course-info">
-              <div className="course-badge">Course {course.courseId}</div>
-              <h1 className="course-title">{course.courseName}</h1>
-              <p className="course-description">
-                Master the fundamentals and advanced concepts in this comprehensive course.
-              </p>
-            </div>
           </motion.div>
 
           {/* Main Actions */}

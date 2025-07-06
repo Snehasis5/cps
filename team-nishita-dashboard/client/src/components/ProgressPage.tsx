@@ -4,9 +4,10 @@ import Layout from './Layout';
 // import ProgressTracker from './ProgressTracker';
 import CircularProgress from './CircularProgress';
 import { useTheme } from '../contexts/ThemeContext';
-import { BookOpen, Award, Clock, Medal, BarChart3 } from 'lucide-react';
+import { BookOpen, Award, Clock, Medal, BarChart3, TrendingUp } from 'lucide-react';
 import { useProgressStore } from '../store/zustand/progressStore';
 import type { ProgressSummary } from '../api/api';
+import IntroHeader from './IntroHeader';
 
 const DUMMY_SUMMARY: ProgressSummary = {
   totalLessonsCompleted: 3,
@@ -84,31 +85,20 @@ const ProgressPage: React.FC = () => {
 
   return (
     <Layout>
-      <div
-        className={`max-w-7xl mx-auto min-h-screen flex flex-col transition-colors duration-300 ${darkMode ? 'bg-[#181A20]' : 'bg-gradient-to-br from-white to-blue-50'
-          }`}
+      <div className="page-hero-container">
+        <IntroHeader 
+          title="Your Learning Progress"
+          tagline="Continue your learning journey and celebrate your achievements"
+          icon={<TrendingUp />}
+        />
+      </div>
+      <div className="max-w-7xl mx-auto min-h-screen flex flex-col transition-colors duration-300"
         style={{
           paddingTop: 64,
           paddingLeft: 48,
           paddingRight: 48,
         }}
       >
-        {/* Header Section */}
-        <div className="flex flex-col items-center" style={{ marginTop: 48, marginBottom: 24 }}>
-          <h1
-            className="text-3xl font-extrabold tracking-tight text-center text-white"
-            style={{ marginBottom: 16, paddingTop: 12, paddingBottom: 12 }}
-          >
-            Your Learning Progress
-          </h1>
-          <p
-            className="text-lg text-center text-gray-400"
-            style={{ marginBottom: 24, paddingLeft: 12, paddingRight: 12 }}
-          >
-            Continue your learning journey and celebrate your achievements
-          </p>
-        </div>
-
         {/* Stat Cards Section - Responsive grid, no horizontal scroll */}
         <div className="px-6 mt-24 mb-56 md:px-24">
           <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 md:gap-24 lg:grid-cols-4">
@@ -157,10 +147,10 @@ const ProgressPage: React.FC = () => {
                 textColorDark: 'text-yellow-100',
                 subTextColorDark: 'text-yellow-200',
               },
-            ].map((card) => (
+            ].map((card, idx) => (
               <div
                 key={card.label}
-                className={`rounded-lg shadow-2xl p-10 flex flex-col items-center transition-colors duration-300 animate-fade-in \
+                className={`progress-summary-card rounded-lg shadow-2xl p-10 flex flex-col items-center transition-colors duration-300 animate-fade-in \
                   hover:scale-105 \
                   ${darkMode ? 'hover:shadow-[0_16px_64px_0_rgba(255,255,255,0.18)]' : 'hover:shadow-[0_16px_64px_0_rgba(80,80,160,0.18)]'} \
                   transition-transform transition-shadow duration-300 \
@@ -181,7 +171,7 @@ const ProgressPage: React.FC = () => {
         {/* Circular Progress Section */}
         <div className="flex flex-col gap-24 justify-center items-center px-6 mt-40 mb-56 md:flex-row md:px-24 animate-fade-in">
           <div className="flex flex-col items-center p-6">
-            <CircularProgress progress={calculateOverallProgress()} size={150} strokeWidth={28} color={darkMode ? "#1e3a8a" : "#60a5fa"} label="Overall" trackColor={!darkMode ? "#dbeafe" : undefined} />
+            <CircularProgress progress={calculateOverallProgress()} size={150} strokeWidth={28} color={darkMode ? "#2563eb" : "#60a5fa"} label="Overall" trackColor={!darkMode ? "#dbeafe" : undefined} />
             <span className="mt-10 text-xl font-semibold text-blue-200">Overall Progress</span>
           </div>
           <div className="flex flex-col items-center p-6">
@@ -189,7 +179,7 @@ const ProgressPage: React.FC = () => {
               progress={(summaryToShow.currentStreak / Math.max(summaryToShow.loginStreak, 1)) * 100}
               size={150}
               strokeWidth={28}
-              color={darkMode ? "#a16207" : "#f59e42"}
+              color={darkMode ? "#eab308" : "#f59e42"}
               label="Streak"
               trackColor={!darkMode ? "#fef9c3" : undefined}
             />
@@ -202,7 +192,7 @@ const ProgressPage: React.FC = () => {
               progress={(summaryToShow.totalCheckIns / 30) * 100}
               size={150}
               strokeWidth={28}
-              color={darkMode ? "#134e4a" : "#38bdf8"}
+              color={darkMode ? "#14b8a6" : "#38bdf8"}
               label="Check-ins"
               trackColor={!darkMode ? "#ccfbf1" : undefined}
             />
@@ -387,102 +377,11 @@ const ProgressPage: React.FC = () => {
                   Study Time
                 </span>
               </div>
-
-              {/* Total Points */}
-              <div
-                className={`flex flex-col items-center justify-center rounded-xl p-4 w-full transition-colors duration-300 ${darkMode ? '' : 'bg-yellow-200/40'}`}
-                style={
-                  darkMode
-                    ? {
-                      color: '#e0e7ef',
-                      boxShadow: '0 4px 24px 0 rgba(0,0,0,0.18)',
-                      borderRadius: 18,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minHeight: 80,
-                      padding: '24px 16px',
-                    }
-                    : undefined
-                }
-              >
-                <span className={`font-extrabold mt-1 ${darkMode ? 'text-2xl' : 'text-4xl text-yellow-700'}`} style={darkMode ? { color: '#fde68a' } : undefined}>
-                  {DUMMY_SUMMARY.totalPoints}
-                </span>
-                <span className={`${darkMode ? 'text-md' : 'text-lg text-yellow-900/80'} mt-1`} style={darkMode ? { color: '#d1d5db' } : undefined}>
-                  Total Points
-                </span>
-              </div>
-
-              {/* Current Streak */}
-              <div
-                className={`flex flex-col items-center justify-center rounded-xl p-4 w-full transition-colors duration-300 ${darkMode ? '' : 'bg-orange-200/40'}`}
-                style={
-                  darkMode
-                    ? {
-                      color: '#e0e7ef',
-                      boxShadow: '0 4px 24px 0 rgba(0,0,0,0.18)',
-                      borderRadius: 18,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minHeight: 80,
-                      padding: '24px 16px',
-                    }
-                    : undefined
-                }
-              >
-                <span className={`font-extrabold mt-1 ${darkMode ? 'text-2xl' : 'text-4xl text-orange-700'}`} style={darkMode ? { color: '#fdba74' } : undefined}>
-                  {DUMMY_SUMMARY.currentStreak}
-                </span>
-                <span className={`${darkMode ? 'text-md' : 'text-lg text-orange-900/80'} mt-1`} style={darkMode ? { color: '#d1d5db' } : undefined}>
-                  Current Streak
-                </span>
-              </div>
-
-              {/* Check-ins */}
-              <div
-                className={`flex flex-col items-center justify-center rounded-xl p-4 w-full transition-colors duration-300 ${darkMode ? '' : 'bg-cyan-200/40'}`}
-                style={
-                  darkMode
-                    ? {
-                      color: '#e0e7ef',
-                      boxShadow: '0 4px 24px 0 rgba(0,0,0,0.18)',
-                      borderRadius: 18,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minHeight: 80,
-                      padding: '24px 16px',
-                    }
-                    : undefined
-                }
-              >
-                <span className={`font-extrabold mt-1 ${darkMode ? 'text-2xl' : 'text-4xl text-cyan-700'}`} style={darkMode ? { color: '#67e8f9' } : undefined}>
-                  {DUMMY_SUMMARY.totalCheckIns}
-                </span>
-                <span className={`${darkMode ? 'text-md' : 'text-lg text-cyan-900/80'} mt-1`} style={darkMode ? { color: '#d1d5db' } : undefined}>
-                  Check-ins
-                </span>
-              </div>
             </div>
           </div>
-        </div >
-
-        {/* Smaller Footer */}
-        < footer
-          className="mt-auto w-full text-center border-t border-gray-700"
-          style={{
-            background: 'linear-gradient(90deg, #23263a 0%, #1e2133 100%)',
-            color: '#a0aec0',
-            fontSize: 14,
-            padding: '16px 0 12px 0',
-            letterSpacing: '0.03em',
-            fontWeight: 500,
-            marginTop: 24,
-          }}
-        >
-          <span style={{ fontWeight: 700, color: '#fff' }}>BluePrint</span> & nbsp;|& nbsp; Crafted for learners everywhere & nbsp; & copy; {new Date().getFullYear()} BluePrint Team 6
-        </footer >
-      </div >
-    </Layout >
+        </div>
+      </div>
+    </Layout>
   );
 };
 

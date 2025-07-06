@@ -10,6 +10,7 @@ import {
   FaChevronUp,
   FaChevronDown
 } from "react-icons/fa";
+import IntroHeader from "./IntroHeader";
 import "./TeamAndFAQPage.css";
 
 interface TeamMember {
@@ -187,12 +188,13 @@ const useIsDarkTheme = () => {
 // TeamCard without image
 const TeamCard: React.FC<{ member: TeamMember; colorIdx: number }> = ({ member, colorIdx }) => {
   const isDark = useIsDarkTheme();
-  const pastelBg = isDark ? undefined : pastelCardGradients[colorIdx % pastelCardGradients.length];
+  const pastelBg = !isDark ? pastelCardGradients[colorIdx % pastelCardGradients.length] : undefined;
+  const textColor = !isDark ? '#334155' : undefined;
   return (
     <div
       className={`team-card`}
       style={{
-        color: '#334155',
+        color: textColor,
         boxShadow: '0 4px 24px 0 rgba(80, 80, 160, 0.10)',
         background: pastelBg
       }}
@@ -219,19 +221,13 @@ const TeamCard: React.FC<{ member: TeamMember; colorIdx: number }> = ({ member, 
 
 const TeamAndFAQPage: React.FC = () => (
   <div className="team-faq-page">
-    {/* Hero Section */}
-    <section className="hero-section">
-      <div className="hero-bg" />
-      <div className="hero-content">
-        <h1>
-          <span className="hero-title">{projectInfo.title}</span>
-          <span className="hero-tagline">{projectInfo.tagline}</span>
-        </h1>
-        <p className="hero-mission">
-          <FaRocket /> Empowering you to own your learning journey!
-        </p>
-      </div>
-    </section>
+    <div className="page-hero-container">
+      <IntroHeader 
+        title={<span className="main-title">{projectInfo.title}</span>}
+        tagline={projectInfo.tagline}
+        icon={<FaRocket />}
+      />
+    </div>
 
     {/* Team Section */}
     <section className="team-section">
