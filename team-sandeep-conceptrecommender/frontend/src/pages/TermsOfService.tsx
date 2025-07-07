@@ -168,8 +168,8 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
             </p>
             <div className="space-y-2 text-white">
               <p className="font-medium">Contact Legal Team</p>
-              <p>Email: legal@dsaaitutor.com</p>
-              <p>Phone: +91 9876543218</p>
+              <p>Email: support@dsaaitutor.com</p>
+              <p>Phone: +91 0000000000</p>
             </div>
           </div>
         </div>
