@@ -142,9 +142,6 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
         {/* Introduction */}
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
           <div className="prose prose-blue max-w-none">
-            <p className="text-gray-600 mb-4">
-              Last updated: {new Date().toLocaleDateString()}
-            </p>
             <p className="text-gray-600">
               At DSA Tutor, we take your privacy seriously. This Privacy Policy explains how we collect, 
               use, disclose, and safeguard your information when you use our DSA learning platform. 
