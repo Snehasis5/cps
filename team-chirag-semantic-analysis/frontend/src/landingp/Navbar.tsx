@@ -14,8 +14,6 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Lottie from 'lottie-react';
-import aiAnimation from '../assets/ai-lottie.json';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -34,11 +32,7 @@ const Navbar = () => {
         {/* Logo and Brand */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box sx={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Lottie 
-              animationData={aiAnimation} 
-              style={{ width: 32, height: 32 }} 
-              loop 
-            />
+            <img src="/favicon.ico" alt="Query2Concept Logo" style={{ width: '100%', height: '100%' }} />
           </Box>
           <Typography 
             variant="h6" 
@@ -48,7 +42,7 @@ const Navbar = () => {
               letterSpacing: 0.5,
             }}
           >
-            ConceptBridge
+            Query2Concept
           </Typography>
         </Box>
 
@@ -140,11 +134,7 @@ const Navbar = () => {
             {/* Drawer Header */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               <Box sx={{ width: 32, height: 32 }}>
-                <Lottie 
-                  animationData={aiAnimation} 
-                  style={{ width: 28, height: 28 }} 
-                  loop 
-                />
+                <img src="/favicon.ico" alt="Query2Concept Logo" style={{ width: '100%', height: '100%' }} />
               </Box>
               <Typography 
                 variant="h6" 
@@ -156,7 +146,7 @@ const Navbar = () => {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                ConceptBridge
+                Query2Concept
               </Typography>
             </Box>
             
@@ -225,7 +215,7 @@ const Navbar = () => {
               Get Started
             </Button>
           </Box>
-          </Drawer>
+        </Drawer>
       </Toolbar>
     </AppBar>
   );

@@ -13,13 +13,13 @@ const Footer = () => (
   >
     <Container maxWidth="md">
       <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: 1, mb: 2 }}>
-        DSA Learn Portal
+        Query2Concept
       </Typography>
       <Typography variant="body2" mb={1}>
-        Empowering learners with AI-driven concept mapping & personalized DSA journeys.
+        Empowering learners through AI-driven query analysis and personalized DSA concept journeys.
       </Typography>
       <Typography variant="caption" color="white" sx={{ opacity: 0.8 }}>
-        © {new Date().getFullYear()} DSA Learn Portal. All rights reserved.
+        © {new Date().getFullYear()} Query2Concept. All rights reserved.
       </Typography>
     </Container>
   </Box>
