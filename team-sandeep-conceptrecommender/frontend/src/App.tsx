@@ -1150,7 +1150,7 @@ export const App: React.FC = () => {
                       Sending...
                     </span>
                   ) : (
-                    'Send Reset Instructions'
+                    'Proceed to next'
                   )}
                 </button>
               </div>
