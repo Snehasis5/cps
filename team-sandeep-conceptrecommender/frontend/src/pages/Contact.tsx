@@ -16,8 +16,8 @@ const Contact: React.FC<ContactProps> = ({ onBack }) => {
     {
       icon: Phone,
       title: "Phone",
-      details: ["+91 9876543219", "+91 9876543220"],
-      description: "Available Monday to Friday, 9 AM - 6 PM IST"
+      details: ["+91 0000000000", "+91 0000000000"],
+      description: "Available Monday to Friday, 9 AM - 5 PM IST"
     },
     {
       icon: MapPin,
