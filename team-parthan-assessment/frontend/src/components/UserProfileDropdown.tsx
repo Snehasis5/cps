@@ -154,7 +154,7 @@ fetchUserProfile();
             <div className="font-semibold text-gray-900">
               {userProfile.name}
             </div>
-            <div className="text-sm text-gray-500">Level: Expert</div>
+            {/* {<div className="text-sm text-gray-500">Level: Expert</div>} */}
           </div>
         </button>
 
