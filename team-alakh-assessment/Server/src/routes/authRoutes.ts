@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import dotenv from 'dotenv';
 import { OAuth2Client } from 'google-auth-library';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 const router = express.Router();
@@ -13,6 +14,16 @@ interface AuthRequestBody {
   email: string;
   password: string;
 }
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: false, // true if using port 465
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
 router.post('/register', async (req: Request<{}, {}, AuthRequestBody>, res: Response): Promise<void> => {
   const { email, password } = req.body;
@@ -118,12 +129,31 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
     }
 
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '15m' });
-    // In production: Send email with reset link
-    res.json({ resetToken });
+
+    let resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    if(process.env.FRONTEND_URL) resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+    const message = `
+      <p>Hello ${(user.profile?.name) || 'User'},</p>
+      <p>You requested a password reset. Click the link below to reset your password:</p>
+      <p><a href="${resetUrl}">${resetUrl}</a></p>
+      <p>If you didn’t request this, you can ignore this email.</p>
+    `;
+
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || '"MyApp" <no-reply@myapp.com>',
+      to: user.email,
+      subject: 'Password Reset Request',
+      html: message,
+    });
+
+    res.json({ message: 'Password reset link sent to your email' });
   } catch (err) {
+    console.error('Forgot password error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 router.post('/reset-password', async (req: Request, res: Response): Promise<void> => {
   const { token, newPassword } = req.body;
