@@ -127,7 +127,7 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
           <div className="prose prose-blue max-w-none">
             <p className="text-gray-600 mb-4">
-              Last updated: {new Date().toLocaleDateString()}
+              Last updated: 03 June 2025
             </p>
             <p className="text-gray-600">
               Welcome to DSA Tutor. These Terms of Service govern your use of our DSA learning platform. 
