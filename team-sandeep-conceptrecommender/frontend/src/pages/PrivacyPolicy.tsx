@@ -186,8 +186,8 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             </p>
             <div className="space-y-2 text-white">
               <p className="font-medium">Contact Privacy Team</p>
-              <p>Email: privacy@dsaaitutor.com</p>
-              <p>Phone: +91 9876543217</p>
+              <p>Email: support@dsaaitutor.com</p>
+              <p>Phone: +91 0000000000</p>
             </div>
           </div>
         </div>
