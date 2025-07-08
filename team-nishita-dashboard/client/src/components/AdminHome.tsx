@@ -106,7 +106,7 @@ const AdminHome: React.FC<AdminHomeProps> = ({ showAddCourseForm = false }) => {
         uploadToCloudinary(courseData.syllabusPDF, folderName),
         uploadToCloudinary(courseData.materialPDF, folderName)
       ]);
-
+      
       // Send data to backend
       const response = await addCourse({
         courseId: parseInt(courseData.courseId),
@@ -303,7 +303,7 @@ const AdminHome: React.FC<AdminHomeProps> = ({ showAddCourseForm = false }) => {
                   value={courseData.courseName}
                   onChange={(e) => {
                     const courseName = e.target.value;
-                    const generatedSlug = slugify(courseData.courseName, { lower: true, strict: true })
+                    const generatedSlug = slugify(courseName, { lower: true, strict: true });
                     setCourseData(prev => ({ ...prev, courseName: courseName, slug: generatedSlug }))
                   }}
                   required
