@@ -130,7 +130,8 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
 
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '15m' });
 
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    let resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    if(process.env.FRONTEND_URL) resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     const message = `
       <p>Hello ${(user.profile?.name) || 'User'},</p>
