@@ -3,45 +3,69 @@ import Layout from './Layout';
 import { BookOpen, Play } from 'lucide-react';
 import IntroHeader from './IntroHeader';
 import { motion } from 'framer-motion';
-import { getAllCourses, type Course } from '../api/api';
+import { enrollInCourse, getAllCourses, getEnrolledCourses, type Course } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 
 const AllCoursesPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
-  const navigate = useNavigate();
-  const { darkMode } = useTheme();
+  const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const { darkMode } = useTheme();
+  const navigate = useNavigate();
 
-
+  // Fetch all courses and enrolled course IDs together
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getAllCourses();
-        setCourses(response.data.courses);
+        setLoading(true);
+        const [allCoursesRes, enrolledCoursesRes] = await Promise.all([
+          getAllCourses(),
+          getEnrolledCourses(),
+        ]);
+
+        setCourses(allCoursesRes.data.courses);
+        const enrolledIds = enrolledCoursesRes.data.courses.map((c: Course) => Number(c.courseId));
+        setEnrolledCourses(enrolledIds);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error loading data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCourses();
+    fetchData();
   }, []);
 
-  const handleCourseClick = (course: Course) => {
-    navigate(`/course/${course.slug}`);
+  const handleCourseClick = async (course: Course) => {
+    const isEnrolled = enrolledCourses.includes(course.courseId);
+
+    if (isEnrolled) {
+      navigate(`/course/${course.slug}`);
+      return;
+    }
+
+    try {
+      await enrollInCourse(course.courseId);
+      setEnrolledCourses((prev) => [...prev, course.courseId]);
+      alert(`Successfully enrolled in ${course.courseName}!`);
+      navigate(`/course/${course.slug}`);
+    } catch (error) {
+      console.error('Error enrolling:', error);
+    }
   };
+
   const getAnimationProps = (delay = 0) => ({
     initial: { opacity: 0, y: 40 },
     animate: { opacity: 1, y: 0 },
     transition: {
       delay,
       duration: 0.6,
-      type: "spring" as const,
+      type: 'spring' as const,
     },
   });
+
   return (
     <Layout>
       <div className="page-hero-container">
@@ -51,11 +75,13 @@ const AllCoursesPage: React.FC = () => {
           icon={<BookOpen />}
         />
       </div>
+
       <motion.div className="content-wrapper courses-section" {...getAnimationProps(0.2)}>
         <div className="section-header">
           <h2>Available Courses</h2>
           <p>Explore our comprehensive course catalog</p>
         </div>
+
         <div className="w-full sm:w-96 mb-6">
           <input
             type="text"
@@ -81,35 +107,37 @@ const AllCoursesPage: React.FC = () => {
         ) : (
           <div className="courses-grid">
             {courses
-              .filter(course =>
+              .filter((course) =>
                 course.courseName.toLowerCase().includes(searchQuery.toLowerCase())
               )
-              .map((course, index) => (
-
-                <motion.div
-                  key={course._id}
-                  className={`course-card ${!darkMode ? 'soft-course-card' : ''}`}
-                  onClick={() => handleCourseClick(course)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <div className="course-header">
-                    <div className="course-id">Course {course.courseId}</div>
-                    <BookOpen size={20} className="course-icon" />
-                  </div>
-                  <div className="course-content">
-                    <h3 className="course-title">{course.courseName}</h3>
-                    <div className="course-actions">
-                      <button className={`course-btn primary ${!darkMode ? 'soft-primary-btn' : ''}`}>
-                        <Play size={16} />
-                        Start Learning
-                      </button>
+              .map((course, index) => {
+                const isEnrolled = enrolledCourses.includes(course.courseId);
+                return (
+                  <motion.div
+                    key={course._id}
+                    className={`course-card ${!darkMode ? 'soft-course-card' : ''}`}
+                    onClick={() => handleCourseClick(course)}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  >
+                    <div className="course-header">
+                      <div className="course-id">Course {course.courseId}</div>
+                      <BookOpen size={20} className="course-icon" />
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="course-content">
+                      <h3 className="course-title">{course.courseName}</h3>
+                      <div className="course-actions">
+                        <button className={`course-btn primary ${!darkMode ? 'soft-primary-btn' : ''}`}>
+                          {isEnrolled ? <Play size={16} /> : <BookOpen size={16} />}
+                          {isEnrolled ? 'Start Learning' : 'Enroll Now'}
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
           </div>
         )}
 

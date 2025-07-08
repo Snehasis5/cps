@@ -11,6 +11,9 @@ interface IUser extends Document {
   loginDays: Date[];     // for calendar view
   totalPoints: number;   // gamification score
   level: string;         // Learner → Master
+
+  enrolledCourses: number[]; // array of course IDs the user is enrolled in
+  completedCourses: number[]; // array of course IDs the user has completed
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -24,7 +27,10 @@ const userSchema = new mongoose.Schema<IUser>({
   loginDays:    [{ type: Date }],
 
   totalPoints:  { type: Number, default: 0 },
-  level:        { type: String, default: 'Beginner' }
+  level:        { type: String, default: 'Beginner' },
+
+  enrolledCourses:   [{ type: Number, default: [] }],
+  completedCourses: [{ type: Number, default: [] }]
 });
 
 /**

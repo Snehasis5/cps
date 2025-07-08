@@ -72,6 +72,7 @@ export interface CourseResponse {
 
 export interface CoursesResponse {
   courses: Course[];
+  enrolledCourses: number[];
 }
 
 // ---------- Achievements ----------
@@ -122,8 +123,14 @@ export const addCourse = (courseData: {
 }): Promise<{ data: CourseResponse }> =>
   api.post('/courses/add-course', courseData);
 
+export const enrollInCourse = (courseId: number): Promise<{ data: { message: string } }> =>
+  api.post('/courses/enroll', { courseId });
+
 export const getAllCourses = (): Promise<{ data: CoursesResponse }> =>
   api.get('/courses/all');
+
+export const getEnrolledCourses = (): Promise<{ data: CoursesResponse }> =>
+  api.get('/courses/my-courses');
 
 export const getCourseBySlug = (slug: string): Promise<{ data: { course: Course } }> =>
   api.get(`/courses/slug/${slug}`);
