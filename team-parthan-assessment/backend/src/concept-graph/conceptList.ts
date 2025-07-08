@@ -22,7 +22,7 @@ export const dsaConcepts = [
   "Greedy Algorithms", "Activity Selection", "Interval Scheduling", "Huffman Coding",
   "Graph Algorithms (BFS/DFS)", "BFS", "DFS", "Topological Sort", "Connected Components",
   "Shortest Path Algorithms", "Dijkstra", "Bellman-Ford", "Floyd-Warshall",
-  "Minimum Spanning Tree", "Kruskal", "Prim", "MST Applications",
+  "Minimum Spanning Tree", "Kruskal", "Prims", "MST Applications",
   "Advanced Trees", "AVL Tree", "Red-Black Tree", "Tree Rotations", "Balancing Trees"
 ];
 
