@@ -31,6 +31,9 @@ app.use('/api/user-progress', userProgressRoutes);
 app.use('/api',analyzeRoutes)
 app.use('/api/student', studentRoutes);
 app.use('/api/instructor', instructorRoutes);
+app.get('/', (req, res) => {
+  res.status(200).send('Backend is awake!');
+})
 
 
 
