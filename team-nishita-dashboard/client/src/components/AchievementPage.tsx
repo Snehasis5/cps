@@ -147,7 +147,7 @@ const AchievementPage: React.FC = () => {
         </div>
         
         {/* Top Stats */}
-        <div className="top-section">
+        <div className="top-section content-wrapper">
           <div className={`stat-card ${darkMode ? 'streak' : 'soft-blue-card'}`}>
             <Flame size={28} className="stat-icon" />
             <h3>Current Streak</h3>
