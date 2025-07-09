@@ -252,7 +252,7 @@ export const ChatContainer: React.FC = () => {
 
       const userId = currentUser?._id || currentUser?.email || 'guest';
 
-      const res = await fetch(import.meta.env.VITE_CHAT_API_URL || 'http://localhost:5000/api/chat', {
+      const res = await fetch(import.meta.env.VITE_CHAT_API_URL || 'http://localhost:8000/chat', {
         method: 'POST',
         headers,
         body: JSON.stringify({ 
@@ -276,6 +276,7 @@ export const ChatContainer: React.FC = () => {
       
       const data = await res.json();
       
+      // Handle various notification types
       if (data.analysis?.profile_updated) {
         showSuccess('Topic added to your profile!');
       }
@@ -288,12 +289,18 @@ export const ChatContainer: React.FC = () => {
       if (data.analysis?.learning_session_active) {
         showInfo('Learning session in progress...');
       }
+      if (data.analysis?.awaiting_confirmation) {
+        showInfo('Please confirm your understanding to continue...');
+      }
       if (data.analysis?.error === 'No user profile found') {
         showInfo('Using guest mode. Log in for personalized learning!');
       }
       
       if (import.meta.env.DEV && data.user_id) {
         console.log(`Chat request processed for user: ${data.user_id}`);
+        if (data.analysis) {
+          console.log('Analysis data received:', data.analysis);
+        }
       }
       
       return {
@@ -330,6 +337,7 @@ export const ChatContainer: React.FC = () => {
   };
 
   const handleProgressAction = async (action: string) => {
+    // Show immediate feedback
     switch (action) {
       case 'understand':
         showInfo('Great! Moving to next topic...');
@@ -347,22 +355,23 @@ export const ChatContainer: React.FC = () => {
         showInfo('Processing your request...');
     }
     
+    // Create more explicit messages to help the AI understand the intent
     let message = '';
     switch (action) {
       case 'understand':
-        message = 'I understand this topic';
+        message = 'I understand this topic. Please move to the next topic in my learning path.';
         break;
       case 'next':
-        message = 'Next topic';
+        message = 'Next topic please. Continue with my learning path.';
         break;
       case 'need_help':
-        message = 'I need more explanation';
+        message = 'I need more explanation about this topic. Can you provide more details or examples?';
         break;
       case 'satisfied':
-        message = 'I am satisfied with this topic and ready to add it to my profile';
+        message = 'I am satisfied with this topic and ready to add it to my profile. Mark this as completed.';
         break;
       default:
-        message = 'Continue learning';
+        message = 'Continue learning with my current learning path.';
     }
     
     await handleSendMessage(message);
