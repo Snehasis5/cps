@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/Header'; // Make sure you have this import
+import Header from '../components/Header';
 import { Message } from '../components/Message';
 import { MessageInput } from '../components/MessageInput';
 import { Sidebar } from '../components/Sidebar';
 import { TypingIndicator } from '../components/TypingIndicator';
 import { useToast } from '../components/ToastProvider';
 import type { LinkPreview, Message as MessageType } from '../types/chat';
+import type { UserProfile } from '../types/auth';
 import { extractUrls, fetchLinkPreview } from '../utils/linkUtils';
+import { getUserFromStorage, isAuthenticated } from '../utils/auth';
 
 interface ChatHistory {
   id: string;
@@ -49,28 +51,95 @@ interface VideoData {
   views?: string;
 }
 
-const getDefaultWelcome = (): MessageType => ({
-  id: '1',
-  content: `Hello! I'm your AI assistant. I can help you with data structures, algorithms, and even show you useful videos. How can I assist you today?`,
-  role: 'assistant',
-  timestamp: new Date(),
-});
+const getDefaultWelcome = (user?: UserProfile | null): MessageType => {
+  const userName = user?.name ? ` ${user.name}` : '';
+  const personalizedContent = user 
+    ? `Hello${userName}! I'm your AI assistant. I can help you with data structures, algorithms, and provide personalized learning recommendations based on your profile. How can I assist you today?`
+    : `Hello! I'm your AI assistant. I can help you with data structures, algorithms, and even show you useful videos. How can I assist you today?`;
+  
+  return {
+    id: '1',
+    content: personalizedContent,
+    role: 'assistant',
+    timestamp: new Date(),
+  };
+};
 
 export const ChatContainer: React.FC = () => {
-  const [chats, setChats] = useState<ChatHistory[]>([
-    { id: 'chat-1', title: 'New Chat', messages: [getDefaultWelcome()] },
-  ]);
+  const [chats, setChats] = useState<ChatHistory[]>([]);
   const [activeChatId, setActiveChatId] = useState('chat-1');
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { showSuccess, showError, showInfo } = useToast();
 
-  const activeChat = chats.find((chat) => chat.id === activeChatId)!;
+  const activeChat = chats.find((chat) => chat.id === activeChatId);
+
+  // Initialize authentication state and create initial chat
+  useEffect(() => {
+    const user = getUserFromStorage();
+    const token = localStorage.getItem('token');
+    
+    if (user && isAuthenticated()) {
+      setCurrentUser(user);
+      setAuthToken(token);
+    } else {
+      setCurrentUser(null);
+      setAuthToken(null);
+    }
+
+    // Create initial chat with personalized welcome message
+    const initialChat = {
+      id: 'chat-1',
+      title: 'New Chat',
+      messages: [getDefaultWelcome(user)]
+    };
+    
+    setChats([initialChat]);
+    setIsInitialized(true);
+  }, []);
+
+  // Handle user authentication changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const user = getUserFromStorage();
+      const token = localStorage.getItem('token');
+      
+      if (user && isAuthenticated()) {
+        setCurrentUser(user);
+        setAuthToken(token);
+      } else {
+        setCurrentUser(null);
+        setAuthToken(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [activeChat.messages, isTyping]);
+    if (activeChat) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeChat?.messages, isTyping, activeChat]);
+
+  // Don't render until initialized
+  if (!isInitialized || !activeChat) {
+    return (
+      <div className="h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center mx-auto mb-4">
+            <div className="w-4 h-4 rounded-full bg-white animate-pulse" />
+          </div>
+          <p className="text-gray-600 dark:text-gray-400">Loading chat...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleSendMessage = async (content: string) => {
     const userMessage: MessageType = {
@@ -109,7 +178,6 @@ export const ChatContainer: React.FC = () => {
       role: 'assistant',
       timestamp: new Date(),
       analysis: response.analysis,
-      // Only add regular videos to links, not next_step_videos (those go in analysis)
       links: response.videos.map(video => ({
         url: video.url,
         domain: 'youtube.com',
@@ -168,35 +236,64 @@ export const ChatContainer: React.FC = () => {
 
   const generateAIResponse = async (userMessage: string): Promise<AIResponse> => {
     try {
-      // Prepare chat history for context (last 5 messages)
       const chatHistory = activeChat.messages.slice(-5).map(msg => ({
         role: msg.role,
         content: msg.content,
         timestamp: msg.timestamp.toISOString()
       }));
 
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+
+      const userId = currentUser?._id || currentUser?.email || 'guest';
+
       const res = await fetch(import.meta.env.VITE_CHAT_API_URL || 'http://localhost:5000/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ 
           message: userMessage,
           chat_history: chatHistory,
-          user_id: 'default' // You can make this dynamic based on user auth
+          user_id: userId
         })
       });
       
       if (!res.ok) {
+        if (res.status === 401) {
+          showError("Authentication expired. Please log in again.");
+          return {
+            response: "Authentication required. Please log in to continue.",
+            videos: [],
+            analysis: { error: 'Authentication required' }
+          };
+        }
         throw new Error(`Server error: ${res.status}`);
       }
       
       const data = await res.json();
       
-      // Show success notifications for certain analysis types
       if (data.analysis?.profile_updated) {
         showSuccess('Topic added to your profile!');
       }
       if (data.analysis?.path_completed) {
         showSuccess('🎉 Congratulations! Learning path completed!');
+      }
+      if (data.analysis?.topic_completed) {
+        showSuccess(`✅ Topic "${data.analysis.topic_completed}" completed!`);
+      }
+      if (data.analysis?.learning_session_active) {
+        showInfo('Learning session in progress...');
+      }
+      if (data.analysis?.error === 'No user profile found') {
+        showInfo('Using guest mode. Log in for personalized learning!');
+      }
+      
+      if (import.meta.env.DEV && data.user_id) {
+        console.log(`Chat request processed for user: ${data.user_id}`);
       }
       
       return {
@@ -204,12 +301,13 @@ export const ChatContainer: React.FC = () => {
         videos: data.videos || [],
         analysis: data.analysis || {}
       };
-    } catch {
+    } catch (error) {
+      console.error('Error generating AI response:', error);
       showError("There was an error contacting the AI service. Please try again.");
       return {
         response: "There was an error contacting the AI service.",
         videos: [],
-        analysis: {}
+        analysis: { error: 'Network error' }
       };
     }
   };
@@ -218,7 +316,7 @@ export const ChatContainer: React.FC = () => {
     const newId = `chat-${Date.now()}`;
     setChats(cs => [
       ...cs,
-      { id: newId, title: 'New Chat', messages: [getDefaultWelcome()] },
+      { id: newId, title: 'New Chat', messages: [getDefaultWelcome(currentUser)] },
     ]);
     setActiveChatId(newId);
   };
@@ -232,7 +330,6 @@ export const ChatContainer: React.FC = () => {
   };
 
   const handleProgressAction = async (action: string) => {
-    // Show immediate feedback
     switch (action) {
       case 'understand':
         showInfo('Great! Moving to next topic...');
@@ -250,7 +347,6 @@ export const ChatContainer: React.FC = () => {
         showInfo('Processing your request...');
     }
     
-    // Convert action to appropriate message to send to backend
     let message = '';
     switch (action) {
       case 'understand':
@@ -269,22 +365,18 @@ export const ChatContainer: React.FC = () => {
         message = 'Continue learning';
     }
     
-    // Send the message automatically
     await handleSendMessage(message);
   };
 
-  // Heights (adjust if your header/footer are taller)
   const HEADER_HEIGHT = 64;
   const FOOTER_HEIGHT = 80;
 
   return (
     <div className="h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 z-30">
         <Header />
       </div>
       <div className="flex h-full">
-        {/* Sidebar */}
         <Sidebar
           chats={chats}
           activeChatId={activeChatId}
@@ -293,11 +385,10 @@ export const ChatContainer: React.FC = () => {
           collapsed={sidebarCollapsed}
           onToggle={handleToggleSidebar}
         />
-        {/* Chat Area */}
         <div
           className="flex-1 flex flex-col fixed top-0 bottom-0 right-0 transition-all duration-300"
           style={{
-            left: sidebarCollapsed ? '4rem' : '16rem', // 4rem (64px) when collapsed, 16rem (256px) when expanded
+            left: sidebarCollapsed ? '4rem' : '16rem',
             paddingTop: HEADER_HEIGHT,
             height: '100vh',
             width: `calc(100vw - ${sidebarCollapsed ? '4rem' : '16rem'})`,
@@ -305,7 +396,18 @@ export const ChatContainer: React.FC = () => {
             background: 'inherit',
           }}
         >
-          {/* Scrollable Messages Area */}
+          {import.meta.env.DEV && (
+            <div className="absolute top-2 right-4 z-50">
+              <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                currentUser 
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+              }`}>
+                {currentUser ? `✓ ${currentUser.name || 'Authenticated'}` : '⚠ Guest Mode'}
+              </div>
+            </div>
+          )}
+          
           <div
             className="flex-1 overflow-y-auto px-4 py-6 max-w-4xl mx-auto w-full"
             style={{
@@ -333,7 +435,7 @@ export const ChatContainer: React.FC = () => {
             )}
             <div ref={messagesEndRef} />
           </div>
-          {/* Footer is now fixed at the bottom of the window */}
+          
           <div
             className="fixed bottom-0 right-0 z-30 w-full"
             style={{
@@ -349,7 +451,11 @@ export const ChatContainer: React.FC = () => {
                 <MessageInput
                   onSendMessage={handleSendMessage}
                   disabled={isTyping}
-                  placeholder="Type your DSA topic or question..."
+                  placeholder={
+                    currentUser 
+                      ? `Hi ${currentUser.name || 'there'}! Ask me about DSA topics...`
+                      : "Type your DSA topic or question..."
+                  }
                 />
               </div>
             </div>
