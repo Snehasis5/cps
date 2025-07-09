@@ -252,7 +252,7 @@ export const ChatContainer: React.FC = () => {
 
       const userId = currentUser?._id || currentUser?.email || 'guest';
 
-      const res = await fetch(import.meta.env.VITE_CHAT_API_URL || 'http://localhost:8000/chat', {
+      const res = await fetch(import.meta.env.VITE_CHAT_API_URL || 'http://localhost:8000/api/chat', {
         method: 'POST',
         headers,
         body: JSON.stringify({ 
