@@ -78,14 +78,6 @@ async def chat(request: MessageRequest, authorization: str = Header(None)):
 
 if __name__ == "__main__":
     import uvicorn
-    
-    # Get port from environment or default to 8000 for FastAPI
-    port = int(os.getenv("FASTAPI_PORT", "8000"))
-    
-    uvicorn.run(
-        "server:app",
-        host="0.0.0.0",
-        port=port,
-        reload=True,
-        log_level="info"
-    )
+    port = int(os.getenv("PORT", 8000))
+
+    uvicorn.run("server:app", host="0.0.0.0", port=port)

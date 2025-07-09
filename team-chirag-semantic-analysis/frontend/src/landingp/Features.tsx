@@ -1,5 +1,5 @@
 import { Insights, School, VideoLibrary } from '@mui/icons-material';
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 
 const features = [
   {
@@ -24,9 +24,16 @@ const Features = () => (
     <Typography variant="h4" align="center" gutterBottom>
       Why Use CPS Query Mapper?
     </Typography>
-    <Grid container spacing={4} justifyContent="center">
+    <Box 
+      sx={{ 
+        display: 'grid', 
+        gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, 
+        gap: 4, 
+        justifyContent: 'center' 
+      }}
+    >
       {features.map((f, idx) => (
-        <Grid item xs={12} md={4} key={idx}>
+        <Box key={idx}>
           <Paper
             sx={{
               p: 3,
@@ -43,9 +50,9 @@ const Features = () => (
             <Typography variant="h6" sx={{ mt: 2 }}>{f.title}</Typography>
             <Typography color="text.secondary">{f.description}</Typography>
           </Paper>
-        </Grid>
+        </Box>
       ))}
-    </Grid> 
+    </Box>
   </Box>
 );
 
