@@ -41,7 +41,7 @@ const MainPage: React.FC = () => {
   // const [showProfile, setShowProfile] = useState(false);
   const [showLoader, setLoader] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [uploadType, setUploadType] = useState<'youtube' | 'pdf' | 'image'>('pdf');
+  const [uploadType, setUploadType] = useState<'youtube' | 'pdf' | 'image'>('youtube');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [customContents, setCustomContents] = useState<CustomContent[]>([]);
   const [generatedQuizzes, setGeneratedQuizzes] = useState<Quiz[]>([]);
@@ -1187,8 +1187,10 @@ const MainPage: React.FC = () => {
       Choose Content Type
     </label>
     <div className="grid grid-cols-3 gap-3">
+
       {/* YouTube Button commented out */}
       {/* <button
+
         onClick={() => setUploadType("youtube")}
         className={`p-3 md:p-4 rounded-lg border-2 transition-all ${uploadType === "youtube"
           ? "border-red-500 bg-red-50"
@@ -1197,8 +1199,10 @@ const MainPage: React.FC = () => {
       >
         <Youtube className="w-6 h-6 md:w-8 md:h-8 text-red-500 mx-auto mb-2" />
         <div className="text-xs md:text-sm font-medium">YouTube</div>
+
       </button>
        */}
+
       <button
         onClick={() => setUploadType("pdf")}
         className={`p-3 md:p-4 rounded-lg border-2 transition-all ${uploadType === "pdf"
@@ -1209,8 +1213,10 @@ const MainPage: React.FC = () => {
         <FileText className="w-6 h-6 md:w-8 md:h-8 text-red-500 mx-auto mb-2" />
         <div className="text-xs md:text-sm font-medium">PDF</div>
       </button>
+
       {/* Image Button commented out */}
       {/* <button
+
         onClick={() => setUploadType("image")}
         className={`p-3 md:p-4 rounded-lg border-2 transition-all ${uploadType === "image"
           ? "border-blue-500 bg-blue-50"
@@ -1219,7 +1225,7 @@ const MainPage: React.FC = () => {
       >
         <Image className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mx-auto mb-2" />
         <div className="text-xs md:text-sm font-medium">Image</div>
-      </button> */}
+      </button> 
       
     </div>
   </div>
