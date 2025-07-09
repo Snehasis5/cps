@@ -25,7 +25,7 @@ const FAQSection: React.FC = () => {
   const [expanded, setExpanded] = useState<number | false>(false);
 
   const handleChange = (panel: number) => (
-    event: React.SyntheticEvent,
+    _event: React.SyntheticEvent,
     isExpanded: boolean
   ) => {
     setExpanded(isExpanded ? panel : false);

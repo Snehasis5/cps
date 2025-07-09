@@ -1,30 +1,20 @@
-import { Box, Button, Container, Grid, Typography, Card, CardContent, Paper } from '@mui/material';
-import React from 'react';
+import { Box, Button, Container, Typography, Card, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Navbar from '../landingp/Navbar';
 import Footer from '../landingp/Footer';
-import Lottie from 'lottie-react';
-import aiAnimation from '../assets/ai-lottie.json';
 import { 
-  Brain, 
   Search, 
   Target, 
   Users, 
   BookOpen, 
   ArrowRight, 
-  Mail, 
   MessageSquare, 
   Lightbulb, 
   TrendingUp, 
   Database, 
   Zap, 
-  CheckCircle,
-  Code,
-  BarChart3,
-  Video,
-  BookMarked
+  CheckCircle
 } from 'lucide-react';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const LandingPage = () => {
   return (
@@ -94,37 +84,16 @@ const LandingPage = () => {
                 Get Started
                 <ArrowRight style={{ marginLeft: 8, width: 20, height: 20 }} />
               </Button>
-              {/* <Button
-                variant="outlined"
-                size="large"
-                sx={{
-                  borderColor: '#cbd5e1',
-                  color: '#475569',
-                  px: 4,
-                  py: 1.5,
-                  borderRadius: 2,
-                  fontWeight: 600,
-                  fontSize: '1.1rem',
-                  '&:hover': {
-                    borderColor: '#1976d2',
-                    color: '#1976d2',
-                    bgcolor: 'rgba(25, 118, 210, 0.04)',
-                  },
-                }}
-              >
-                <MessageSquare style={{ marginRight: 8, width: 20, height: 20 }} />
-                See Demo
-              </Button> */}
             </Box>
           </Box>
         </Container>
       </Box>
 
-      {/* Overview Section */}
+      {/* Key Features Section */}
       <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'white' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 2 }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 3 }}>
               How It Works
             </Typography>
             <Typography variant="h6" sx={{ color: '#64748b', maxWidth: '600px', mx: 'auto' }}>
@@ -132,57 +101,60 @@ const LandingPage = () => {
             </Typography>
           </Box>
           
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Box sx={{ space: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 4 }}>
-                  <Box sx={{ bgcolor: '#dbeafe', p: 2, borderRadius: 2 }}>
-                    <Search style={{ width: 24, height: 24, color: '#1976d2' }} />
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
-                      Intelligent Query Processing
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
-                      Analyze student DSA questions to understand not just what they're asking, but what underlying 
-                      algorithms and data structures they're struggling with.
-                    </Typography>
-                  </Box>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' }, 
+            alignItems: 'center', 
+            gap: 6 
+          }}>
+            <Box sx={{ flex: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 4 }}>
+                <Box sx={{ bgcolor: '#dbeafe', p: 2, borderRadius: 2 }}>
+                  <Search style={{ width: 24, height: 24, color: '#1976d2' }} />
                 </Box>
-                
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 4 }}>
-                  <Box sx={{ bgcolor: '#dcfce7', p: 2, borderRadius: 2 }}>
-                    <Target style={{ width: 24, height: 24, color: '#16a34a' }} />
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
-                      Concept Gap Identification
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
-                      Automatically map queries to specific DSA knowledge gaps and prerequisite concepts that 
-                      students need to master.
-                    </Typography>
-                  </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
-                  <Box sx={{ bgcolor: '#f3e8ff', p: 2, borderRadius: 2 }}>
-                    <Lightbulb style={{ width: 24, height: 24, color: '#9333ea' }} />
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
-                      Personalized Learning Paths
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
-                      Generate targeted learning recommendations with video content that address specific gaps 
-                      and build foundational DSA understanding.
-                    </Typography>
-                  </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
+                    Intelligent Query Processing
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
+                    Analyze student DSA questions to understand not just what they're asking, but what underlying 
+                    algorithms and data structures they're struggling with.
+                  </Typography>
                 </Box>
               </Box>
-            </Grid>
+              
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 4 }}>
+                <Box sx={{ bgcolor: '#dcfce7', p: 2, borderRadius: 2 }}>
+                  <Target style={{ width: 24, height: 24, color: '#16a34a' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
+                    Concept Gap Identification
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
+                    Automatically map queries to specific DSA knowledge gaps and prerequisite concepts that 
+                    students need to master.
+                  </Typography>
+                </Box>
+              </Box>
+              
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
+                <Box sx={{ bgcolor: '#f3e8ff', p: 2, borderRadius: 2 }}>
+                  <Lightbulb style={{ width: 24, height: 24, color: '#9333ea' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
+                    Personalized Learning Paths
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
+                    Generate targeted learning recommendations with video content that address specific gaps 
+                    and build foundational DSA understanding.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
             
-            <Grid item xs={12} md={6}>
+            <Box sx={{ flex: 1 }}>
               <Paper sx={{ bgcolor: '#f8fafc', p: 4, borderRadius: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Box sx={{ 
@@ -207,102 +179,94 @@ const LandingPage = () => {
                   </Typography>
                 </Box>
               </Paper>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Container>
       </Box>
 
-      {/* Features Section */}
+      {/* Technology Features */}
       <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: '#f8fafc' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 2 }}>
-              Powerful Features
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 3 }}>
+              Advanced Technology Stack
             </Typography>
             <Typography variant="h6" sx={{ color: '#64748b', maxWidth: '600px', mx: 'auto' }}>
-              Advanced capabilities that transform how educational platforms understand and support learners.
+              Built with cutting-edge AI and machine learning technologies.
             </Typography>
           </Box>
-          <Grid container spacing={4} justifyContent="center" alignItems="stretch">
-            <Grid item xs={12} md={4}>
-              <Card sx={{
-                p: 4,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 260,
-                maxWidth: 340,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#e3edfa', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
-                  <Database style={{ width: 28, height: 28, color: '#1976d2' }} />
-                </Box>
-                <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  Real-Time Analysis
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
-                  Process student queries instantly to provide immediate insights into learning needs and knowledge gaps as they emerge.
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Card sx={{
-                p: 4,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 260,
-                maxWidth: 340,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#e6f7ee', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
-                  <Zap style={{ width: 28, height: 28, color: '#16a34a' }} />
-                </Box>
-                <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  Adaptive Learning Engine
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
-                  Continuously learn from student interactions to improve concept mapping accuracy and personalization over time.
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Card sx={{
-                p: 4,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 260,
-                maxWidth: 340,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#f3e8ff', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
-                  <TrendingUp style={{ width: 28, height: 28, color: '#9333ea' }} />
-                </Box>
-                <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  Learning Analytics
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
-                  Comprehensive dashboards and insights that help educators understand class-wide learning patterns and common misconceptions.
-                </Typography>
-              </Card>
-            </Grid>
-          </Grid>
+          
+          <Box sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, 
+            gap: 4 
+          }}>
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#dbeafe', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <Database style={{ width: 28, height: 28, color: '#1976d2' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                Vector Database
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Semantic embeddings to capture the meaning behind questions and provide contextually relevant responses.
+              </Typography>
+            </Card>
+            
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#e6f7ee', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <Zap style={{ width: 28, height: 28, color: '#16a34a' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                Adaptive Learning Engine
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Continuously learn from student interactions to improve concept mapping accuracy and personalization over time.
+              </Typography>
+            </Card>
+            
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#f3e8ff', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <TrendingUp style={{ width: 28, height: 28, color: '#9333ea' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                Learning Analytics
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Comprehensive dashboards and insights that help educators understand class-wide learning patterns and common misconceptions.
+              </Typography>
+            </Card>
+          </Box>
         </Container>
       </Box>
 
@@ -310,291 +274,224 @@ const LandingPage = () => {
       <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'white' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 2 }}>
-              Applications
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 3 }}>
+              Real-World Applications
             </Typography>
             <Typography variant="h6" sx={{ color: '#64748b', maxWidth: '600px', mx: 'auto' }}>
-              Transform educational experiences across platforms and learning environments.
+              Transforming how students learn algorithms across different educational contexts.
             </Typography>
           </Box>
-          <Grid container spacing={4} justifyContent="center" alignItems="stretch">
-            <Grid item xs={12} sm={6} md={3}>
-              <Card sx={{
-                p: 3,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 220,
-                maxWidth: 300,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#e3edfa', width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                  <BookOpen style={{ width: 28, height: 28, color: '#1976d2' }} />
-                </Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  Learning Management Systems
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', fontSize: 15 }}>
-                  Integrate with existing LMS platforms to provide intelligent content recommendations.
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card sx={{
-                p: 3,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 220,
-                maxWidth: 300,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#e6f7ee', width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                  <MessageSquare style={{ width: 28, height: 28, color: '#16a34a' }} />
-                </Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  AI Tutoring Systems
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', fontSize: 15 }}>
-                  Power intelligent tutoring systems that understand student needs and provide targeted help.
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card sx={{
-                p: 3,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 220,
-                maxWidth: 300,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#f3e8ff', width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                  <Users style={{ width: 28, height: 28, color: '#9333ea' }} />
-                </Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  Classroom Analytics
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', fontSize: 15 }}>
-                  Provide educators with real-time insights into student understanding and learning gaps.
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card sx={{
-                p: 3,
-                borderRadius: 3,
-                boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
-                border: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '100%',
-                bgcolor: 'white',
-                minWidth: 220,
-                maxWidth: 300,
-                mx: 'auto',
-              }}>
-                <Box sx={{ bgcolor: '#fef3c7', width: 56, height: 56, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                  <CheckCircle style={{ width: 28, height: 28, color: '#d97706' }} />
-                </Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
-                  Assessment Platforms
-                </Typography>
-                <Typography sx={{ color: '#64748b', textAlign: 'center', fontSize: 15 }}>
-                  Enhance assessment tools with intelligent analysis of student responses and misconceptions.
-                </Typography>
-              </Card>
-            </Grid>
-          </Grid>
+          
+          <Box sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }, 
+            gap: 4 
+          }}>
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#dbeafe', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <BookOpen style={{ width: 28, height: 28, color: '#1976d2' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                University CS Courses
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Help professors identify common student misconceptions in algorithms and data structures courses.
+              </Typography>
+            </Card>
+            
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#fef3c7', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <Users style={{ width: 28, height: 28, color: '#d97706' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                Coding Bootcamps
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Accelerate learning by quickly identifying and addressing individual student knowledge gaps.
+              </Typography>
+            </Card>
+            
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#e6f7ee', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <MessageSquare style={{ width: 28, height: 28, color: '#16a34a' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                Online Tutoring
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Provide tutors with instant insights into student understanding levels and learning needs.
+              </Typography>
+            </Card>
+            
+            <Card sx={{
+              p: 4,
+              borderRadius: 3,
+              boxShadow: '0 2px 16px 0 rgba(0,0,0,0.08)',
+              border: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '100%',
+              bgcolor: 'white',
+            }}>
+              <Box sx={{ bgcolor: '#f3e8ff', width: 56, height: 56, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
+                <CheckCircle style={{ width: 28, height: 28, color: '#9333ea' }} />
+              </Box>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1, textAlign: 'center' }}>
+                Interview Prep
+              </Typography>
+              <Typography sx={{ color: '#64748b', textAlign: 'center', lineHeight: 1.6 }}>
+                Help candidates understand their weaknesses and create personalized study plans for technical interviews.
+              </Typography>
+            </Card>
+          </Box>
         </Container>
       </Box>
 
-      {/* Benefits Section */}
+      {/* Why Choose Our Platform */}
       <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: '#f8fafc' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 2 }}>
-              Why Choose Semantic Analysis for DSA?
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#1e293b', mb: 3 }}>
+              Why Choose Our Platform?
             </Typography>
             <Typography variant="h6" sx={{ color: '#64748b', maxWidth: '600px', mx: 'auto' }}>
-              Transform your educational platform with intelligent understanding of learner needs.
+              Built for educators, students, and institutions who want to revolutionize DSA learning.
             </Typography>
           </Box>
-          <Grid container spacing={4} justifyContent="center" alignItems="flex-start">
-            <Grid item xs={12} md={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-end', maxWidth: 500, ml: 'auto' }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, maxWidth: 420 }}>
-                  <CheckCircle style={{ width: 32, height: 32, color: '#16a34a', marginTop: 2, flexShrink: 0 }} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                      Improved Learning Outcomes
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', fontSize: 16 }}>
-                      Students receive more targeted support that addresses their actual learning needs.
-                    </Typography>
-                  </Box>
+          
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' }, 
+            alignItems: 'center', 
+            gap: 6 
+          }}>
+            <Box sx={{ flex: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 4 }}>
+                <Box sx={{ bgcolor: '#dbeafe', p: 2, borderRadius: 2 }}>
+                  <CheckCircle style={{ width: 24, height: 24, color: '#1976d2' }} />
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, maxWidth: 420 }}>
-                  <CheckCircle style={{ width: 32, height: 32, color: '#16a34a', marginTop: 2, flexShrink: 0 }} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                      Reduced Teacher Workload
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', fontSize: 16 }}>
-                      Automated analysis helps educators focus on high-impact teaching activities.
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, maxWidth: 420 }}>
-                  <CheckCircle style={{ width: 32, height: 32, color: '#16a34a', marginTop: 2, flexShrink: 0 }} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                      Personalized Learning at Scale
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', fontSize: 16 }}>
-                      Deliver individualized education experiences to thousands of students simultaneously.
-                    </Typography>
-                  </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
+                    Research-Backed Approach
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
+                    Based on latest research in educational psychology and cognitive science for effective learning.
+                  </Typography>
                 </Box>
               </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-start', maxWidth: 500, mr: 'auto' }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, maxWidth: 420 }}>
-                  <CheckCircle style={{ width: 32, height: 32, color: '#16a34a', marginTop: 2, flexShrink: 0 }} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                      Data-Driven Insights
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', fontSize: 16 }}>
-                      Make informed decisions about curriculum and content based on actual learning patterns.
-                    </Typography>
-                  </Box>
+              
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 4 }}>
+                <Box sx={{ bgcolor: '#dcfce7', p: 2, borderRadius: 2 }}>
+                  <Database style={{ width: 24, height: 24, color: '#16a34a' }} />
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, maxWidth: 420 }}>
-                  <CheckCircle style={{ width: 32, height: 32, color: '#16a34a', marginTop: 2, flexShrink: 0 }} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                      Early Intervention
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', fontSize: 16 }}>
-                      Identify learning difficulties before they become major obstacles to student success.
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, maxWidth: 420 }}>
-                  <CheckCircle style={{ width: 32, height: 32, color: '#16a34a', marginTop: 2, flexShrink: 0 }} />
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#1e293b', mb: 0.5 }}>
-                      Seamless Integration
-                    </Typography>
-                    <Typography sx={{ color: '#64748b', fontSize: 16 }}>
-                      Easy to implement with existing educational technology infrastructure.
-                    </Typography>
-                  </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
+                    Comprehensive DSA Coverage
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
+                    Covers all major algorithms and data structures with detailed concept mapping and prerequisites.
+                  </Typography>
                 </Box>
               </Box>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* Call to Action */}
-      {/*
-      <Box sx={{ 
-        py: { xs: 8, md: 12 }, 
-        background: 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
-        color: 'white'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, mb: 3 }}>
-              Ready to Transform DSA Learning?
-            </Typography>
-            <Typography variant="h6" sx={{ mb: 6, maxWidth: '600px', mx: 'auto', opacity: 0.9 }}>
-              Join leading educational institutions and technology companies using semantic analysis 
-              to create more effective DSA learning experiences.
-            </Typography>
-            <Button
-              component={Link}
-              to="/signup"
-              variant="contained"
-              size="large"
-              sx={{
-                bgcolor: '#fff',
-                color: '#1976d2',
-                px: 4,
-                py: 1.5,
-                borderRadius: 2,
-                fontWeight: 600,
-                fontSize: '1.1rem',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-                '&:hover': {
-                  bgcolor: '#f8fafc',
-                  transform: 'translateY(-2px)',
-                },
-                transition: 'all 0.2s',
-              }}
-            >
-              Get Started
-              <ArrowRight style={{ marginLeft: 8, width: 20, height: 20 }} />
-            </Button>
+              
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
+                <Box sx={{ bgcolor: '#fef3c7', p: 2, borderRadius: 2 }}>
+                  <Zap style={{ width: 24, height: 24, color: '#d97706' }} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}>
+                    Easy Integration
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6 }}>
+                    Easy to implement with existing educational technology infrastructure.
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+            
+            <Box sx={{ flex: 1 }}>
+              <Paper sx={{ bgcolor: 'white', p: 4, borderRadius: 3 }}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Box sx={{ 
+                    bgcolor: '#1976d2', 
+                    color: 'white', 
+                    fontSize: '2rem', 
+                    fontWeight: 700,
+                    py: 2, 
+                    px: 3, 
+                    borderRadius: 2, 
+                    mb: 3, 
+                    display: 'inline-block' 
+                  }}>
+                    Get Started Today
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 600, color: '#1e293b', mb: 2 }}>
+                    Join the Learning Revolution
+                  </Typography>
+                  <Typography sx={{ color: '#64748b', lineHeight: 1.6, mb: 4 }}>
+                    Transform how students learn algorithms and data structures. Start with our free trial.
+                  </Typography>
+                  <Button
+                    component={Link}
+                    to="/signup"
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      bgcolor: '#1976d2',
+                      color: 'white',
+                      px: 4,
+                      py: 1.5,
+                      borderRadius: 2,
+                      fontWeight: 600,
+                      fontSize: '1.1rem',
+                      boxShadow: '0 4px 16px rgba(25, 118, 210, 0.3)',
+                      '&:hover': {
+                        bgcolor: '#1565c0',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 24px rgba(25, 118, 210, 0.4)',
+                      },
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    Start Free Trial
+                    <ArrowRight style={{ marginLeft: 8, width: 20, height: 20 }} />
+                  </Button>
+                </Box>
+              </Paper>
+            </Box>
           </Box>
         </Container>
-      </Box>
-      */}
-
-      {/* Floating Up Arrow */}
-      <Box sx={{
-        position: 'fixed',
-        bottom: 32,
-        right: 32,
-        zIndex: 2000,
-        display: { xs: 'none', sm: 'flex' },
-      }}>
-        <Box
-          component="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          sx={{
-            bgcolor: '#1976d2',
-            color: 'white',
-            border: 'none',
-            borderRadius: '50%',
-            width: 56,
-            height: 56,
-            boxShadow: 4,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-            '&:hover': {
-              bgcolor: '#1565c0',
-              boxShadow: 8,
-              transform: 'translateY(-4px) scale(1.08)',
-            },
-          }}
-          aria-label="Scroll to top"
-        >
-          <ArrowUpwardIcon sx={{ fontSize: 32 }} />
-        </Box>
       </Box>
 
       <Footer />
