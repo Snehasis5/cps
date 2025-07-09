@@ -1189,7 +1189,7 @@ const MainPage: React.FC = () => {
     <div className="grid grid-cols-3 gap-3">
 
       {/* YouTube Button commented out */}
-      {/* <button
+      <button
 
         onClick={() => setUploadType("youtube")}
         className={`p-3 md:p-4 rounded-lg border-2 transition-all ${uploadType === "youtube"
@@ -1201,7 +1201,7 @@ const MainPage: React.FC = () => {
         <div className="text-xs md:text-sm font-medium">YouTube</div>
 
       </button>
-       */}
+      
 
       <button
         onClick={() => setUploadType("pdf")}
@@ -1241,13 +1241,59 @@ const MainPage: React.FC = () => {
       <input
         type="url"
         value={youtubeUrl}
-        onChange={(e) => setYoutubeUrl(e.target.value)}
-        placeholder="https://www.youtube.com/watch?v=..."
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <p className="text-xs text-gray-500 mt-2">
-        Our AI will analyze the video content and generate relevant DSA questions
-      </p>
+                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    Our AI will analyze the video content and generate relevant DSA questions
+                  </p>
+
+
+
+                  {/* Upload Cookies Section */}
+                  <div className="mt-6">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Update Cookies File
+                    </label>
+                    <input
+                      type="file"
+                      accept=".txt"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+
+                        const formData = new FormData();
+                        formData.append('cookie', file);
+
+                        try {
+                          const res = await fetch('https://cps-rnku.onrender.com/api/upload-cookies', {
+                            method: 'POST',
+                            body: formData,
+                          });
+
+                          if (res.ok) {
+                            alert('✅ Cookies updated successfully!');
+                          } else {
+                            alert('❌ Failed to update cookies.');
+                          }
+                        } catch (error) {
+                          console.error('Error uploading cookies:', error);
+                          alert('🚫 Error uploading cookies file.');
+                        }
+                      }}
+                      className="block w-full text-sm text-gray-600
+               file:mr-4 file:py-2 file:px-4
+               file:rounded-md file:border-0
+               file:text-sm file:font-semibold
+               file:bg-indigo-50 file:text-indigo-700
+               hover:file:bg-indigo-100"
+                    />
+                    <p className="text-xs text-gray-500 mt-2">
+                      Upload a <code>cookies.txt</code> file exported from your browser.
+                    </p>
+                  </div>
+
       <div>
         <ConceptAnalyzer
           youtubeUrl={youtubeUrl}
