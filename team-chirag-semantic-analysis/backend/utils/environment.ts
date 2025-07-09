@@ -4,6 +4,7 @@
 
 import dotenv from 'dotenv';
 import path from 'path';
+import { promises as fs } from 'fs';
 
 // Load environment variables
 dotenv.config();
@@ -66,7 +67,6 @@ export const getFilePaths = () => {
  * Check if required files exist
  */
 export const validateFileSystem = async (): Promise<void> => {
-  const fs = await import('fs/promises');
   const paths = getFilePaths();
 
   try {

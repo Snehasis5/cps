@@ -58,7 +58,7 @@ const startServer = async () => {
 
     // MongoDB connection
     await mongoose.connect(process.env.MONGODB_URI!, {
-      dbName: process.env.DATABASE_NAME
+      dbName: process.env.DATABASE_NAME || 'dsa_learning_system'
     });
 
     // Start server
