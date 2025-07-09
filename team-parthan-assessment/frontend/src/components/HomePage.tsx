@@ -269,9 +269,10 @@ const HomePage: React.FC = () => {
 
               <span>Start Creating Assessments</span>
             </button>
-            <button className="bg-white text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-colors border border-gray-200 flex items-center justify-center space-x-2">
+            <button className="bg-white text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-colors border border-gray-200 flex items-center justify-center space-x-2" 
+              onClick={() => {window.open("https://github.com/continuousactivelearning/cps/tree/team-parthan-assessment", "_blank");}}>
               <BookOpen className="w-5 h-5" />
-              <span>View Documentation</span>
+              <span>View on GitHub</span>
             </button>
           </div>
 

@@ -1226,6 +1226,7 @@ const MainPage: React.FC = () => {
         <Image className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mx-auto mb-2" />
         <div className="text-xs md:text-sm font-medium">Image</div>
       </button> 
+      */}
       
     </div>
   </div>
