@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import './config/passport';
 import authRoutes from './routes/authRoutes';
-import chatRoutes from './routes/chat'; // New TypeScript chat system
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { initializeEnvironment } from './utils/environment';
 
@@ -38,17 +37,17 @@ const startServer = async () => {
         message: 'DSA Learning Backend is running with TypeScript!',
         timestamp: new Date().toISOString(),
         services: {
-          auth: '✅ Active',
-          chat: '✅ Active (TypeScript)',
+          auth: '✅ Active (Express)',
+          chat: '✅ Active (FastAPI - Port 8000)',
           database: '✅ Connected'
-        }
+        },
+        note: 'Chat functionality is handled by FastAPI server on port 8000'
       });
     });
 
     // Routes
     app.use('/api/users', authRoutes);
     app.use('/auth', authRoutes);
-    app.use('/api/chat', chatRoutes); // New TypeScript chat system
 
     // Error handling
     app.use(notFoundHandler);

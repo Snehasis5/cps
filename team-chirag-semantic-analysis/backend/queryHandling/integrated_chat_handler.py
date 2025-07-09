@@ -29,10 +29,12 @@ current_dir = Path(__file__).parent
 sys.path.append(str(current_dir))
 sys.path.append(str(current_dir / "static" / "graph"))
 sys.path.append(str(current_dir / "dynamic"))
+sys.path.append(str(current_dir.parent / "database"))
 
 try:
     from real_graph_analyzer import RealGraphLearningAnalyzer
     from groq_dsa_yt import YouTubeResourceFinder, generate_response
+    from database.mongodb import MongoDBHandler
 except ImportError as e:
     print(f"Import error: {e}")
     print("Trying alternative imports...")
@@ -40,13 +42,16 @@ except ImportError as e:
         import sys
         sys.path.append(str(current_dir / "static" / "graph"))
         sys.path.append(str(current_dir / "dynamic"))
+        sys.path.append(str(current_dir.parent / "database"))
         from real_graph_analyzer import RealGraphLearningAnalyzer
         from groq_dsa_yt import YouTubeResourceFinder, generate_response
+        from database.mongodb import MongoDBHandler
     except ImportError as e2:
         print(f"Alternative import error: {e2}")
-        print("Please ensure real_graph_analyzer.py and groq_dsa_yt.py are in the correct locations")
+        print("Please ensure all required modules are in the correct locations")
         RealGraphLearningAnalyzer = None
         YouTubeResourceFinder = None
+        MongoDBHandler = None
 
 class IntegratedChatHandler:
     def __init__(self):
@@ -55,6 +60,17 @@ class IntegratedChatHandler:
         self.graph_data_path = current_dir / "static" / "graph" / "graph_data.json"
         self.user_profile_path = self.frontend_public_path / "user_profile.json"
         self.unknown_queries_log = current_dir / "unknown_queries.json"
+        
+        # Initialize MongoDB handler
+        try:
+            if MongoDBHandler is not None:
+                self.mongodb_handler = MongoDBHandler()
+            else:
+                self.mongodb_handler = None
+                print("MongoDB handler not available - falling back to JSON files")
+        except Exception as e:
+            print(f"Error initializing MongoDB handler: {e}")
+            self.mongodb_handler = None
         
         # Initialize components
         try:
@@ -80,8 +96,20 @@ class IntegratedChatHandler:
         self.learning_sessions_path = current_dir / "learning_sessions.json"
         self.learning_sessions = self.load_learning_sessions()
         
-    def load_user_profile(self) -> Optional[Dict]:
-        """Load user profile from frontend/public directory."""
+    def load_user_profile(self, user_id: str = None) -> Optional[Dict]:
+        """Load user profile from MongoDB or fallback to JSON files."""
+        # Try MongoDB first if available and user_id is provided
+        if self.mongodb_handler and user_id:
+            try:
+                profile = self.mongodb_handler.get_user_profile(user_id)
+                if profile:
+                    return profile
+                else:
+                    print(f"User profile not found in MongoDB for user_id: {user_id}")
+            except Exception as e:
+                print(f"Error loading user profile from MongoDB: {e}")
+        
+        # Fallback to JSON files
         try:
             # First try to find the most recent user_profile_*.json file
             profile_files = list(self.frontend_public_path.glob("user_profile_*.json"))
@@ -727,10 +755,36 @@ class IntegratedChatHandler:
             return True
         return False
     
-    def add_topic_to_user_profile(self, topic_name: str) -> bool:
+    def add_topic_to_user_profile(self, topic_name: str, user_id: str = None) -> bool:
         """Add completed topic to user profile."""
         try:
-            user_profile = self.load_user_profile()
+            # Try MongoDB first if available and user_id is provided
+            if self.mongodb_handler and user_id:
+                try:
+                    # Find topic details from graph
+                    topic_data = None
+                    if self.graph_analyzer:
+                        for node in self.graph_analyzer.graph_data.get('nodes', []):
+                            if node['type'] == 'topic' and node['name'].lower() == topic_name.lower():
+                                topic_data = {
+                                    'id': node['id'],
+                                    'name': node['name'],
+                                    'type': 'topic',
+                                    'subtopics': []  # Start with empty subtopics
+                                }
+                                break
+                    
+                    if topic_data:
+                        success = self.mongodb_handler.add_topic_to_user_profile(user_id, topic_data)
+                        if success:
+                            return True
+                        else:
+                            print(f"Failed to add topic to MongoDB for user {user_id}")
+                except Exception as e:
+                    print(f"Error adding topic to MongoDB: {e}")
+            
+            # Fallback to JSON file method
+            user_profile = self.load_user_profile(user_id)
             if not user_profile:
                 return False
             
@@ -758,7 +812,7 @@ class IntegratedChatHandler:
                     user_profile['knownConcepts']['topics'].append(topic_data)
                     user_profile['knownConcepts']['totalTopics'] += 1
                     
-                    # Save updated profile
+                    # Save updated profile to JSON file
                     profile_files = list(self.frontend_public_path.glob("user_profile_*.json"))
                     if profile_files:
                         latest_profile = max(profile_files, key=lambda p: p.stat().st_mtime)
@@ -780,8 +834,8 @@ class IntegratedChatHandler:
             limited_chat_history = chat_history[-4:]  # Keep only last 4 messages
         
         try:
-            # Load user profile
-            user_profile = self.load_user_profile()
+            # Load user profile with user_id
+            user_profile = self.load_user_profile(user_id)
             if not user_profile:
                 return {
                     'response': "I couldn't find your user profile. Please complete the onboarding process first to get personalized learning recommendations.",
@@ -972,7 +1026,7 @@ class IntegratedChatHandler:
             else:
                 # Path completed
                 target_topic = learning_session.get('target_topic')
-                self.add_topic_to_user_profile(target_topic)
+                self.add_topic_to_user_profile(target_topic, user_id)
                 
                 return {
                     'response': f"🎉 **Congratulations!** You've completed your learning path and mastered **{target_topic}**!\n\n✅ This topic has been added to your profile.\n\n🚀 What would you like to learn next?",
@@ -1135,7 +1189,7 @@ class IntegratedChatHandler:
             # Check if this is a satisfaction confirmation
             if query_analysis['learning_intent']['satisfied_with_topic']:
                 # Add topic to user profile
-                profile_updated = self.add_topic_to_user_profile(current_topic)
+                profile_updated = self.add_topic_to_user_profile(current_topic, user_id)
                 
                 # Mark topic as completed and move to next
                 self.complete_current_topic(user_id)
