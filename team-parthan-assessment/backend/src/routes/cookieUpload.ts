@@ -8,9 +8,10 @@ import { config } from '../config';
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
-router.post('/upload-cookies', upload.single('cookie'), async (req: Request & { file?: Express.Multer.File }, res) => {
+router.post('/upload-cookies', upload.single('cookie'), async (req: Request & { file?: Express.Multer.File }, res: express.Response): Promise<void> => {
   if (!req.file) {
-    return res.status(400).send('No file uploaded.');
+    res.status(400).send('No file uploaded.');
+    return;
   }
 
   const targetPath = path.resolve(config.COOKIES_PATH);

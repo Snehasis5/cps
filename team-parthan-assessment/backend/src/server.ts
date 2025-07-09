@@ -8,6 +8,7 @@ import userProgressRoutes from './routes/userProgress';
 import analyzeRoutes from './routes/analyzeRoute';
 import studentRoutes from './routes/studentRoutes';
 import instructorRoutes from './routes/instructorRoutes';
+import uploadCookies from './routes/cookieUpload';
 import path from 'path';
 
 dotenv.config();
@@ -31,6 +32,7 @@ app.use('/api/user-progress', userProgressRoutes);
 app.use('/api',analyzeRoutes)
 app.use('/api/student', studentRoutes);
 app.use('/api/instructor', instructorRoutes);
+app.use('/api', uploadCookies);
 app.head('/', (req, res) => {
   res.status(200).send('Backend is awake!');
 })
