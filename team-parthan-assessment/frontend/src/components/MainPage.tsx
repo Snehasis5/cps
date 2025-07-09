@@ -1188,7 +1188,7 @@ const MainPage: React.FC = () => {
     </label>
     <div className="grid grid-cols-3 gap-3">
      
-      {/* <button
+      <button
         onClick={() => setUploadType("youtube")}
         className={`p-3 md:p-4 rounded-lg border-2 transition-all ${uploadType === "youtube"
           ? "border-red-500 bg-red-50"
@@ -1197,7 +1197,7 @@ const MainPage: React.FC = () => {
       >
         <Youtube className="w-6 h-6 md:w-8 md:h-8 text-red-500 mx-auto mb-2" />
         <div className="text-xs md:text-sm font-medium">YouTube</div>
-      </button> */}
+      </button>
       
       <button
         onClick={() => setUploadType("pdf")}
@@ -1210,7 +1210,7 @@ const MainPage: React.FC = () => {
         <div className="text-xs md:text-sm font-medium">PDF</div>
       </button>
       
-      {/* <button
+      <button
         onClick={() => setUploadType("image")}
         className={`p-3 md:p-4 rounded-lg border-2 transition-all ${uploadType === "image"
           ? "border-blue-500 bg-blue-50"
@@ -1219,7 +1219,7 @@ const MainPage: React.FC = () => {
       >
         <Image className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mx-auto mb-2" />
         <div className="text-xs md:text-sm font-medium">Image</div>
-      </button> */}
+      </button>
       
     </div>
   </div>
