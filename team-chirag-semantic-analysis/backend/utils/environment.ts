@@ -25,7 +25,7 @@ export const getConfig = (): AppConfig => {
     nodeEnv: process.env.NODE_ENV || 'development',
     groqApiKey: process.env.GROQ_API_KEY || '',
     youtubeApiKey: process.env.YOUTUBE_API_KEY || '',
-    frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000'
+    frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173'
   };
 
   // Validation

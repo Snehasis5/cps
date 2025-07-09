@@ -1020,6 +1020,7 @@ class IntegratedChatHandler:
                         'next_step_videos': videos,
                         'progress': f"{new_index + 1}/{len(current_path)}",
                         'learning_path': current_path,
+                        'learning_session_active': True,
                         'topic_progression': True
                     }
                 }
@@ -1168,7 +1169,8 @@ class IntegratedChatHandler:
                 'analysis': {
                     'awaiting_specific_question': True,
                     'current_topic': current_topic,
-                    'help_options_provided': True
+                    'help_options_provided': True,
+                    'learning_session_active': True
                 }
             }
         
@@ -1256,7 +1258,8 @@ class IntegratedChatHandler:
                     'analysis': {
                         'awaiting_confirmation': True,
                         'current_topic': current_topic,
-                        'confirmation_requested': True
+                        'confirmation_requested': True,
+                        'learning_session_active': True
                     }
                 }
         
