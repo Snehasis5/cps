@@ -1,14 +1,35 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
 
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link id="favicon" rel="icon" type="image/png" href="/circular_frame_0.png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue Print</title>
+</head>
+<script>
+  const frames = [
+    "/circular_frame_0.png",
+    "/circular_frame_1.png",
+    "/circular_frame_2.png",
+    "/circular_frame_3.png",
+    "/circular_frame_4.png",
+    "/circular_frame_5.png",
+    "/circular_frame_6.png",
+    "/circular_frame_7.png",
+  ];
+  let i = 0;
+  setInterval(() => {
+    document.getElementById("favicon").href = frames[i];
+    i = (i + 1) % frames.length;
+  }, 200);
+</script>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+</body>
+
 </html>
