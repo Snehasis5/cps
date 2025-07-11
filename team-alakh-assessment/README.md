@@ -724,11 +724,6 @@ We welcome contributions! Please follow these steps:
 - **Documentation**: Comprehensive guides and API docs
 - **Community**: Join our Discord for discussions
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
