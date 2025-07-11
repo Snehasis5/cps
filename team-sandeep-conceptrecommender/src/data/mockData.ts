@@ -1,4 +1,4 @@
-// created by Nabarupa Banik
+// Author : Snehasis Mukhopadhyay
 import { User, Topic, ExamResult, ProgressData, AIRecommendation, Problem, ExamQuestion } from '../types';
 
 export const mockUser: User = {
