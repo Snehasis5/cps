@@ -1,4 +1,4 @@
-// Created by : @Snehasis Mukhopadhyay
+// Author : @Snehasis Mukhopadhyay
 import React from 'react';
 import { Topic } from '../types';
 import { 
