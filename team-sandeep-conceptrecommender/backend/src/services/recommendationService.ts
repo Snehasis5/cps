@@ -1,7 +1,6 @@
 // Author: Mondi Sai Lokesh
 import { Topic } from '../models/Topic';
 import { UserTopic } from '../models/UserTopic';
-import "../model.pth"
 
 interface Prerequisites {
   [key: string]: string[];
