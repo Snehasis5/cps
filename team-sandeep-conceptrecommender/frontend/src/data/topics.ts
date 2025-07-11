@@ -1,4 +1,4 @@
-// src/data/topics.ts
+//Author: Pentapati V V Satya Pavan Sandeep
 export const topics = [
     {
       name: "Arrays",
