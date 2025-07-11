@@ -1,3 +1,4 @@
+// Author: Mondi Sai Lokesh
 import React, { useRef, useState } from 'react';
 import { User } from '../types';
 import { Award, Calendar, Target, Zap, TrendingUp } from 'lucide-react';
