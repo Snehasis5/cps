@@ -5,11 +5,11 @@ Welcome to PreAssess! This project is built by a passionate team to help student
 ---
 
 ## 👥 Team Members
-- **Alakh Mathur** (Team Lead) - Full-stack development, AI integration, UI/UX
-- **Omkar Kumar** - Backend development, API design
-- **Anand Jangid** - Quiz system, assessment logic
+- **Alakh Mathur** (Team Lead) - Developed the SDLC,project architecture,landing pages,User and Instructor Dashboard,Chatbot System,Query Management and control,Notification and smart prerequistie recommendation on user side
+- **Omkar Kumar** - Prerequisite generation,Authorization ,Instructor's student profile page,MongoDB Integration,Full Deployment
+- **Anand Jangid** - Quiz system,Learning module generation, Storage and pdf conversion, ThemeToggle, Forgot Password, Google Sign in, Responsiveness in user side and final UI enhancement
 - **Pavithra Krishnappa** - Frontend components, user experience
-- **Aditya Kumar Das** - Database design, authentication
+- **Aditya Kumar Das** - Database design, Quiz Modules Design
 
 ---
 
