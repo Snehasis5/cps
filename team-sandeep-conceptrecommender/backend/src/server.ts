@@ -10,7 +10,7 @@ import recommendationRoutes from './routes/recommendationRoutes';
 import userTopicRoutes from './routes/userTopicRoutes';
 import quizRoutes from './routes/quizRoutes';
 import path from 'path';
-
+import pingRouter from './routes/ping';
 dotenv.config();
 
 const app = express();
@@ -35,7 +35,7 @@ app.use('/api/exam-results', examResultRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/user-topics', userTopicRoutes);
 app.use('/api/quizzes', quizRoutes);
-
+app.use('/api/ping', pingRouter);
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/learning-platform';
 
