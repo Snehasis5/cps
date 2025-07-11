@@ -1,3 +1,4 @@
+// @author:B V Sai Pranav
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User, IUser } from '../models/User';
