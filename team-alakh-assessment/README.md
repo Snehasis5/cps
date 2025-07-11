@@ -2,6 +2,8 @@
 
 Welcome to PreAssess! This project is built by a passionate team to help students master concepts in the right order and give instructors powerful tools to guide and assess learning. We hope you enjoy exploring it as much as we enjoyed building it!
 
+**Project Documentation** - https://1drv.ms/w/c/5396b16527d0a48b/EQB_mz-iBFVKnaHEN4mo5JoBv2o_uox7Zv6zugtx7A0i1w?e=prwp7J
+
 ---
 
 ## 👥 Team Members
