@@ -1,7 +1,7 @@
 //Author: Pentapati V V Satya Pavan Sandeep
 import { Router, Request, Response } from 'express';
 const router = Router();
-router.get('/ping', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     res.status(200).json({ status: 'ok' });
   } catch (error) {
