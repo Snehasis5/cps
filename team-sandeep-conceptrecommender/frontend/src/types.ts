@@ -1,3 +1,4 @@
+//Author: Pentapati V V Satya Pavan Sandeep
 export interface User {
   id: string;
   name: string;
